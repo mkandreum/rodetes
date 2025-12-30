@@ -9,22 +9,23 @@ $validPassword = getenv('ADMIN_PASSWORD') ?: 'admin';
 // Leer entrada JSON
 $input = json_decode(file_get_contents('php://input'), true);
 $email = trim($input['email'] ?? '');
-$password = trim($input['password'] ?? '');
+$clientHash = $input['hash'] ?? '';
 
 // Debug logging
 error_log("LOGIN ATTEMPT:");
 error_log("Input Email: '" . $email . "'");
-error_log("Input Password: '" . $password . "'");
-error_log("Expected Email: '" . $validEmail . "'");
-error_log("Expected Password: '" . $validPassword . "'");
-error_log("Env ADMIN_EMAIL: '" . getenv('ADMIN_EMAIL') . "'");
+error_log("Client Hash: '" . $clientHash . "'");
 
-if ($email === $validEmail && $password === $validPassword) {
+// Calcular hash de la contraseña correcta
+$validPasswordHash = hash('sha256', $validPassword);
+
+if ($email === $validEmail && $clientHash === $validPasswordHash) {
     $_SESSION['is_logged_in'] = true;
     $_SESSION['admin_email'] = $email;
     echo json_encode(['success' => true]);
 } else {
     http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Credenciales incorrectas (Revisa logs)']);
+    error_log("Login Failed. Expected Hash: " . $validPasswordHash);
+    echo json_encode(['success' => false, 'message' => 'Credenciales incorrectas']);
 }
 ?>
