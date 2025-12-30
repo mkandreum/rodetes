@@ -281,32 +281,32 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
         <div id="page-home" data-page="home" class="hidden">
 
             <!-- Eventos Próximos/Pasados en Inicio -->
-            <h2 class="text-4xl font-pixel text-white mb-6 text-center text-glow-white">EVENTOS</h2>
+            <h2 class="text-4xl font-pixel text-white mb-6 text-center text-glow-white glitch-hover" data-text="EVENTOS">EVENTOS</h2>
             <div id="home-event-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                  <p class="text-gray-400 text-center col-span-full font-pixel">Cargando eventos...</p>
             </div>
 
             <!-- Botón Ver Todos los Eventos -->
             <div id="view-all-events-container" class="text-center mb-12 hidden">
-                <button id="view-all-events-btn" class="bg-white text-black font-pixel text-2xl py-3 px-8 rounded-none border border-gray-400 hover:bg-gray-300 transition-colors duration-300">
+                <button id="view-all-events-btn" class="neon-btn font-pixel text-2xl py-3 px-8 rounded-none">
                     VER TODOS LOS EVENTOS
                 </button>
             </div>
 
             <!-- Banner Principal (Imagen/Video) -->
-            <div class="bg-black border border-white overflow-hidden mb-12">
+            <div class="bg-black border border-white overflow-hidden mb-12 reveal-on-scroll">
                 <div id="home-banner-container" class="relative w-full bg-black" style="padding-bottom: 56.25%;">
                     <div class="absolute inset-0 flex items-center justify-center bg-black text-gray-500 font-pixel">Cargando banner...</div>
                 </div>
                 <div class="p-8 sm:p-12 text-center">
-                    <h1 class="text-5xl sm:text-7xl lg:text-8xl font-pixel text-white text-center text-glow-white mb-8 leading-tight"> LA MEJOR FIESTA QUEER<br class="sm:hidden"> DE ALBACETE </h1>
+                    <h1 class="text-5xl sm:text-7xl lg:text-8xl font-pixel text-white text-center text-glow-white mb-8 leading-tight glitch-hover" data-text="LA MEJOR FIESTA QUEER DE ALBACETE"> LA MEJOR FIESTA QUEER<br class="sm:hidden"> DE ALBACETE </h1>
                 </div>
             </div>
 
 
             <!-- Galerías Pasadas en Inicio -->
-            <div id="past-galleries-section" class="mt-12">
-                <h2 class="text-4xl font-pixel text-white mb-6 text-center text-glow-white">GALERÍAS DE EVENTOS PASADOS</h2>
+            <div id="past-galleries-section" class="mt-12 reveal-on-scroll">
+                <h2 class="text-4xl font-pixel text-white mb-6 text-center text-glow-white glitch-hover" data-text="GALERÍAS PASADAS">GALERÍAS DE EVENTOS PASADOS</h2>
                 <div id="past-galleries-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <p class="text-gray-400 text-center col-span-full font-pixel">Cargando galerías...</p>
                 </div>
@@ -315,7 +315,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
 
         <!-- ==== PÁGINA: EVENTOS ==== -->
         <div id="page-events" data-page="events" class="hidden">
-            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white">EVENTOS</h2>
+            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="EVENTOS">EVENTOS</h2>
             <div id="event-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                  <p class="text-gray-400 text-center col-span-full font-pixel">Cargando eventos...</p>
             </div>
@@ -323,7 +323,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
 
         <!-- ==== PÁGINA: GALERÍA ==== -->
         <div id="page-gallery" data-page="gallery" class="hidden">
-            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white">GALERÍAS DE EVENTOS</h2>
+            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="GALERÍAS">GALERÍAS DE EVENTOS</h2>
             <!-- Lista de eventos con galería -->
             <div id="gallery-event-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                  <p class="text-gray-400 text-center col-span-full font-pixel">Cargando galerías...</p>
@@ -331,7 +331,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
             <!-- Vista de imágenes de una galería -->
             <div id="gallery-image-view-container" class="hidden">
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                    <button id="gallery-back-btn" class="w-full sm:w-auto bg-white text-black font-pixel text-lg py-2 px-6 rounded-none border border-gray-400 hover:bg-gray-300 transition-colors"> &lt; VOLVER A GALERÍAS </button>
+                    <button id="gallery-back-btn" class="w-full sm:w-auto neon-btn text-white font-pixel text-lg py-2 px-6 rounded-none"> &lt; VOLVER A GALERÍAS </button>
                     <h3 id="gallery-image-view-title" class="text-3xl sm:text-4xl font-pixel text-white text-glow-white text-center sm:text-right order-first sm:order-last"></h3>
                 </div>
                 <div id="gallery-image-view-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
@@ -342,7 +342,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
 
         <!-- ==== PÁGINA: DRAGS ==== -->
         <div id="page-drags" data-page="drags" class="hidden">
-            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white">DRAGS</h2>
+            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="DRAGS">DRAGS</h2>
             <!-- Lista de Drags -->
             <div id="drag-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                  <p class="text-gray-400 text-center col-span-full font-pixel">Cargando drags...</p>
@@ -350,7 +350,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
             <!-- Vista de galería de una Drag -->
             <div id="drag-gallery-view-container" class="hidden">
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                    <button id="drag-gallery-back-btn" class="w-full sm:w-auto bg-white text-black font-pixel text-lg py-2 px-6 rounded-none border border-gray-400 hover:bg-gray-300 transition-colors"> &lt; VOLVER A DRAGS </button>
+                    <button id="drag-gallery-back-btn" class="w-full sm:w-auto neon-btn text-white font-pixel text-lg py-2 px-6 rounded-none"> &lt; VOLVER A DRAGS </button>
                     <h3 id="drag-gallery-view-title" class="text-3xl sm:text-4xl font-pixel text-white text-glow-white text-center sm:text-right order-first sm:order-last"></h3>
                 </div>
                 <div id="drag-gallery-view-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
@@ -361,13 +361,13 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
 
         <!-- ==== PÁGINA: ADMIN ==== -->
         <div id="page-admin" data-page="admin" class="hidden">
-            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white">PANEL DE ADMINISTRACIÓN</h2>
+            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="ADMIN">PANEL DE ADMINISTRACIÓN</h2>
             <!-- Formulario de Login -->
             <form id="login-form" class="max-w-md mx-auto bg-gray-900 p-8 border border-white <?php echo $isLoggedIn ? 'hidden' : ''; ?>">
                 <h3 class="text-3xl font-pixel text-center mb-6 text-white text-glow-white">INICIAR SESIÓN</h3>
                 <div class="mb-4"><label for="email" class="block text-sm font-pixel text-lg text-gray-300 mb-1">EMAIL</label><input type="email" id="email" name="email" required class="w-full" placeholder="usuario@dominio.es"></div>
                 <div class="mb-6"><label for="password" class="block text-sm font-pixel text-lg text-gray-300 mb-1">CONTRASEÑA</label><input type="password" id="password" name="password" required class="w-full" placeholder="••••••••"></div>
-                <button type="submit" class="w-full bg-white text-black font-pixel text-2xl py-2 px-4 rounded-none border border-gray-400 hover:bg-gray-300 transition-colors duration-300"> ENTRAR </button>
+                <button type="submit" class="w-full neon-btn font-pixel text-2xl py-2 px-4 rounded-none"> ENTRAR </button>
             </form>
 
             <!-- Panel Principal de Admin -->
