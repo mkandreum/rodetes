@@ -80,19 +80,19 @@ const AdminGallery = () => {
                 </form>
             </div>
 
-            {/* PHOTOS LIST */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {/* PHOTOS LIST (STRICT GRID) */}
+            <div className="admin-gallery-grid">
                 {photos?.map(photo => (
-                    <div key={photo.id} className="relative group aspect-square bg-gray-900 border border-gray-800">
+                    <div key={photo.id} className="admin-gallery-item group">
                         <img src={photo.image_url} alt="Gallery" className="w-full h-full object-cover" />
 
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center p-2 text-center">
-                            <p className="text-xs text-white mb-2">{photo.event_title}</p>
+                        {/* Overlay with Legacy Simple Delete Button */}
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center">
                             <button
                                 onClick={() => handleDelete(photo.id)}
-                                className="p-2 bg-red-600 text-white rounded-full hover:bg-red-500"
+                                className="bg-red-600 text-white p-2 hover:bg-red-500 rounded-none border border-white"
                             >
-                                <Trash2 size={16} />
+                                <Trash2 size={24} />
                             </button>
                         </div>
                     </div>
