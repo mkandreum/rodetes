@@ -116,7 +116,7 @@ export const uploadImage = async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'No file uploaded' });
         }
 
-        const fileUrl = getFileUrl(req.file.filename, 'merch');
+        const fileUrl = getFileUrl(req);
         res.json({ url: fileUrl });
     } catch (error) {
         console.error('Error uploading image:', error);

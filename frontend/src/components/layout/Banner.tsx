@@ -29,8 +29,7 @@ export const Banner: React.FC = () => {
         return null;
     }
 
-    const { promoCustomText, promoNeonColor } = settings;
-    const neonColor = promoNeonColor || '#F02D7D';
+    const { promoCustomText } = settings;
 
     const formatEventText = (text: string, event: Event) => {
         const eventDate = new Date(event.date);

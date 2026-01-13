@@ -37,3 +37,8 @@ export const upload = multer({
         fileSize: 5 * 1024 * 1024 // 5MB limit
     }
 });
+
+export const getFileUrl = (req: any) => {
+    if (!req.file) return null;
+    return `/uploads/${req.file.filename}`;
+};

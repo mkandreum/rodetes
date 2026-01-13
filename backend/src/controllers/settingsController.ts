@@ -96,7 +96,7 @@ export const uploadLogo = async (req: Request, res: Response) => {
         }
 
         const { logoType } = req.body; // 'app' or 'ticket'
-        const fileUrl = getFileUrl(req.file.filename, 'logos');
+        const fileUrl = getFileUrl(req);
 
         // Update the corresponding setting
         const key = logoType === 'ticket' ? 'ticketLogoUrl' : 'appLogoUrl';
