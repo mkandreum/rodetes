@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { useSettings } from '../../hooks/useSettings';
+import { useToast } from '../../context/ToastContext';
 import { Menu, X } from 'lucide-react';
 import { Banner } from './Banner';
 
 const Layout = () => {
     const { isAuthenticated, logout } = useAuthStore();
+    const { success } = useToast();
     const location = useLocation();
     const { settings } = useSettings();
     const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -64,7 +66,10 @@ const Layout = () => {
                             <>
                                 <Link to="/admin" className="text-rodetes-blue hover:text-white transition-colors">ADMIN</Link>
                                 <button
-                                    onClick={logout}
+                                    onClick={() => {
+                                        logout();
+                                        success('Sesión cerrada correctamente');
+                                    }}
                                     className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded-none text-sm"
                                 >
                                     LOGOUT
@@ -105,7 +110,11 @@ const Layout = () => {
                             <>
                                 <Link to="/admin" className="text-xl text-rodetes-blue" onClick={() => setIsMobileOpen(false)}>ADMIN PANEL</Link>
                                 <button
-                                    onClick={() => { logout(); setIsMobileOpen(false); }}
+                                    onClick={() => {
+                                        logout();
+                                        success('Sesión cerrada correctamente');
+                                        setIsMobileOpen(false);
+                                    }}
                                     className="text-xl text-red-500 font-pixel mt-4"
                                 >
                                     LOGOUT
