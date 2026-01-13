@@ -66,9 +66,9 @@ const AdminEvents = () => {
 
             <div className="grid gap-4">
                 {events?.map((event) => (
-                    <div key={event.id} className="bg-gray-900 border border-gray-700 p-4 flex justify-between items-center group hover:border-gray-500 transition-colors">
+                    <div key={event.id} className="bg-gray-900 border border-gray-700 p-4 flex justify-between items-center group hover:border-rodetes-pink transition-colors relative">
                         <div>
-                            <h3 className="text-xl font-bold text-white">{event.title}</h3>
+                            <h3 className="text-xl font-bold text-white font-pixel">{event.title}</h3>
                             <p className="text-gray-400 text-sm">
                                 {new Date(event.date).toLocaleDateString()} - {event.time}
                             </p>

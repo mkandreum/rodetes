@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
+import morgan from 'morgan';
 
 // Import Routes
 import authRoutes from './routes/auth';
@@ -63,6 +64,7 @@ const startServer = async () => {
     const app = express();
 
     // Middleware
+    app.use(morgan('dev'));
     app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
@@ -116,6 +118,15 @@ const startServer = async () => {
     // Handle React Routing
     app.get('*', (req, res) => {
         res.sendFile(path.join(publicPath, 'index.html'));
+    });
+
+    // Global Error Handler
+    app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+        console.error('❌ Global Error:', err);
+        res.status(err.status || 500).json({
+            message: err.message || 'Internal Server Error',
+            error: process.env.NODE_ENV === 'development' ? err : {}
+        });
     });
 
     // Start server

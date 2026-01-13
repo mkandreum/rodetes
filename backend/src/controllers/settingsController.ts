@@ -87,6 +87,10 @@ export const updateSettings = async (req: Request, res: Response) => {
 // Upload logo file
 export const uploadLogo = async (req: Request, res: Response) => {
     try {
+        console.log('--- uploadLogo Controller ---');
+        console.log('File received:', req.file ? req.file.filename : 'None');
+        console.log('Body:', req.body);
+
         if (!req.file) {
             return res.status(400).json({ message: 'No file uploaded' });
         }
@@ -96,6 +100,7 @@ export const uploadLogo = async (req: Request, res: Response) => {
 
         // Update the corresponding setting
         const key = logoType === 'ticket' ? 'ticketLogoUrl' : 'appLogoUrl';
+        console.log('Updating setting:', key, 'with URL:', fileUrl);
 
         await pool.query(
             `INSERT INTO app_config (key, value) 

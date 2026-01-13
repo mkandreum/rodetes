@@ -78,7 +78,12 @@ const Layout = () => {
 
                 {/* Mobile Menu Overlay */}
                 {isMobileOpen && (
-                    <div className="md:hidden fixed inset-0 top-[83px] bg-black/95 z-40 flex flex-col items-center justify-start pt-12 gap-6 h-[calc(100vh-83px)]">
+                    <div
+                        className="md:hidden fixed inset-x-0 bottom-0 bg-black/95 z-40 flex flex-col items-center justify-start pt-12 gap-6"
+                        style={{
+                            top: `${bannerHeight + headerHeight}px`
+                        }}
+                    >
                         <Link to="/" className={mobileNavLinkClass('/')} onClick={() => setIsMobileOpen(false)}>INICIO</Link>
                         <Link to="/events" className={mobileNavLinkClass('/events')} onClick={() => setIsMobileOpen(false)}>EVENTOS</Link>
                         <Link to="/drags" className={mobileNavLinkClass('/drags')} onClick={() => setIsMobileOpen(false)}>DRAGS</Link>

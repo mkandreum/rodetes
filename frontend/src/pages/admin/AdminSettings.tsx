@@ -57,9 +57,10 @@ const AdminSettings = () => {
             });
 
             setMessage({ text: 'Ajustes actualizados correctamente', type: 'success' });
-        } catch (error) {
-            console.error(error);
-            setMessage({ text: 'Error al actualizar ajustes', type: 'error' });
+        } catch (error: any) {
+            console.error('Submit Error:', error);
+            const errorMsg = error.response?.data?.message || 'Error al actualizar ajustes';
+            setMessage({ text: errorMsg, type: 'error' });
         }
     };
 
@@ -87,6 +88,7 @@ const AdminSettings = () => {
                             onUpload={async (file) => {
                                 const data = new FormData();
                                 data.append('uploadType', 'logos');
+                                data.append('logoType', 'app');
                                 data.append('logo', file);
                                 const res = await api.post('/settings/upload-logo', data, {
                                     headers: { 'x-upload-type': 'logos' }
@@ -100,6 +102,7 @@ const AdminSettings = () => {
                             onUpload={async (file) => {
                                 const data = new FormData();
                                 data.append('uploadType', 'logos');
+                                data.append('logoType', 'ticket');
                                 data.append('logo', file);
                                 const res = await api.post('/settings/upload-logo', data, {
                                     headers: { 'x-upload-type': 'logos' }

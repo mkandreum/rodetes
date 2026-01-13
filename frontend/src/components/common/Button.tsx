@@ -10,7 +10,7 @@ const Button = ({ className, variant = 'primary', size = 'md', ...props }: Butto
     const baseStyles = "font-pixel font-bold transition-all duration-300 rounded-none border border-transparent";
 
     const variants = {
-        primary: "bg-white text-black hover:bg-gray-200",
+        primary: "bg-rodetes-pink text-white hover:bg-pink-600",
         secondary: "bg-gray-800 text-white hover:bg-gray-700 border-gray-600",
         danger: "bg-red-600 text-white hover:bg-red-500",
         outline: "bg-transparent border-2 border-white text-white hover:bg-white hover:text-black"

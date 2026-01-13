@@ -18,8 +18,12 @@ const storage = multer.diskStorage({
 
         // Take uploadType from header, query or body
         const uploadType = (req.headers['x-upload-type'] as string) || req.body.uploadType || 'general';
-        const uploadPath = path.resolve(__dirname, '../../uploads', uploadType);
 
+        // Use UPLOAD_DIR env var if present (best for Docker), otherwise fallback to local dev structure
+        const baseUploadDir = process.env.UPLOAD_DIR || path.join(process.cwd(), 'uploads');
+        const uploadPath = path.resolve(baseUploadDir, uploadType);
+
+        console.log('Upload type determined:', uploadType);
         console.log('Upload target path:', uploadPath);
 
         try {

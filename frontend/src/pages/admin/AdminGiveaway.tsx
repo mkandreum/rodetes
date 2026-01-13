@@ -26,7 +26,7 @@ const AdminGiveaway = () => {
         setWinners([]);
 
         try {
-            const { data } = await client.get(`/ tickets / giveaway / ${selectedEventId}?count = ${numWinners} `);
+            const { data } = await client.get(`/tickets/giveaway/${selectedEventId}?count=${numWinners}`);
             setWinners(data);
         } catch (err: any) {
             console.error(err);

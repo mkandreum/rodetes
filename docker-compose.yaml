@@ -31,8 +31,8 @@ services:
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@rodetes.com}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
     volumes:
-      - rodetes_uploads:/app/backend/uploads
-      - rodetes_legacy:/app/backend/legacy_data
+      - rodetes_uploads:/app/uploads
+      - rodetes_legacy:/app/legacy_data
     ports:
       - "3001:3000"
     depends_on:
