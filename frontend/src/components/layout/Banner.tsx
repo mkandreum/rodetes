@@ -105,6 +105,5 @@ export const Banner: React.FC = () => {
                 {displayText}
             </span>
         </div>
-        </div >
     );
 };
