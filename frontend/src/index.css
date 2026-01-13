@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Reset & Styles from original style.css */
+@layer components {
+  .btn-primary {
+    @apply bg-white text-black font-pixel text-2xl py-2 px-6 rounded-none border border-gray-400 hover:bg-gray-300 transition-colors duration-300;
+  }
+}
+
+/* Animations */
+@keyframes neon-pulse {
+  0%, 100% { box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #eb2eff, 0 0 35px #eb2eff, 0 0 40px #eb2eff; }
+  50% { box-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #eb2eff, 0 0 15px #eb2eff, 0 0 20px #eb2eff; }
+}
+
+.text-glow-white {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.glitch-hover:hover {
+  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+  color: #eb2eff;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}

@@ -1,14 +1,51 @@
 version: '3.8'
 
 services:
-  rodetes-app:
-    build: .
-    restart: always
-    expose:
-      - "80"
+  rodetes_postgres:
+    image: postgres:16-alpine
+    container_name: rodetes_postgres
     environment:
-      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@rodetes.com}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      POSTGRES_USER: rodetes_user
+      POSTGRES_PASSWORD: rodetes_password
+      POSTGRES_DB: rodetes_db
     volumes:
-      - ./data_private:/var/www/data_private
-      - ./uploads:/var/www/html/uploads
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U rodetes_user" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rodetes_backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rodetes_backend
+    environment:
+      DATABASE_URL: postgresql://rodetes_user:rodetes_password@rodetes_postgres:5432/rodetes_db
+      JWT_SECRET: dev_secret_key_12345
+      PORT: 3000
+    volumes:
+      - ./backend/uploads:/app/uploads
+      - ./backend/legacy_data:/app/legacy_data
+    ports:
+      - "3000:3000"
+    depends_on:
+      rodetes_postgres:
+        condition: service_healthy
+
+  rodetes_frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: rodetes_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - rodetes_backend
+
+volumes:
+  postgres_data:
