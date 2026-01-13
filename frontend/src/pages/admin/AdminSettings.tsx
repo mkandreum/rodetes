@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSettings } from '../../hooks/useSettings';
 import Button from '../../components/common/Button';
 import Loader from '../../components/common/Loader';
+import FileUpload from '../../components/common/FileUpload';
 import { Save } from 'lucide-react';
+import api from '../../api/client';
 
 const AdminSettings = () => {
     const { settings, isLoading, updateSettings, isUpdating } = useSettings();
@@ -79,28 +81,28 @@ const AdminSettings = () => {
                 <div>
                     <h4 className="text-2xl font-pixel text-white mb-4 text-glow-white border-b border-gray-700 pb-2">LOGOTIPOS</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                        <div className="space-y-2">
-                            <label className="block text-sm font-pixel text-lg text-gray-300 mb-1">LOGO PRINCIPAL (URL)</label>
-                            <input
-                                type="text"
-                                value={formData.appLogoUrl}
-                                onChange={e => setFormData({ ...formData, appLogoUrl: e.target.value })}
-                                className="w-full bg-black border border-gray-600 text-white p-2 font-pixel"
-                                placeholder="https://..."
-                            />
-                            <p className="text-xs text-gray-400">Recomendado PNG transparente.</p>
-                        </div>
-                        <div className="space-y-2">
-                            <label className="block text-sm font-pixel text-lg text-gray-300 mb-1">LOGO TICKET (URL)</label>
-                            <input
-                                type="text"
-                                value={formData.ticketLogoUrl}
-                                onChange={e => setFormData({ ...formData, ticketLogoUrl: e.target.value })}
-                                className="w-full bg-black border border-gray-600 text-white p-2 font-pixel"
-                                placeholder="https://..."
-                            />
-                            <p className="text-xs text-gray-400">Aparecerá en el PDF de la entrada.</p>
-                        </div>
+                        <FileUpload
+                            label="LOGO PRINCIPAL"
+                            currentUrl={formData.appLogoUrl}
+                            onUpload={async (file) => {
+                                const data = new FormData();
+                                data.append('logo', file);
+                                data.append('logoType', 'app');
+                                const res = await api.post('/settings/upload-logo', data);
+                                setFormData(prev => ({ ...prev, appLogoUrl: res.data.url }));
+                            }}
+                        />
+                        <FileUpload
+                            label="LOGO TICKET"
+                            currentUrl={formData.ticketLogoUrl}
+                            onUpload={async (file) => {
+                                const data = new FormData();
+                                data.append('logo', file);
+                                data.append('logoType', 'ticket');
+                                const res = await api.post('/settings/upload-logo', data);
+                                setFormData(prev => ({ ...prev, ticketLogoUrl: res.data.url }));
+                            }}
+                        />
                     </div>
                 </div>
 
