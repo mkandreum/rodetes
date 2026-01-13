@@ -19,21 +19,21 @@ const Layout = () => {
 
     const bannerVisible = settings?.promoEnabled && settings?.promoCustomText;
     const bannerHeight = bannerVisible ? 40 : 0;
-    const headerHeight = 83;
+    const headerHeight = 120; // Increased to accommodate mobile nav row
 
     return (
         <div className="min-h-screen bg-black text-white font-pixel selection:bg-rodetes-pink selection:text-white flex flex-col">
             <Banner />
             {/* Header */}
             <header
-                className="fixed w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800"
+                className="fixed w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800 flex flex-col justify-center"
                 style={{
                     height: `${headerHeight}px`,
                     top: `${bannerHeight}px`,
                     transition: 'top 0.3s ease'
                 }}
             >
-                <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+                <div className="container mx-auto px-4 flex justify-between items-center h-[70px]">
                     <Link to="/" className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rodetes-pink to-rodetes-blue hover:opacity-80 transition-opacity">
                         {settings?.appLogoUrl ? (
                             <img src={settings.appLogoUrl} alt="RODETES" className="h-[50px] object-contain" />
@@ -76,10 +76,19 @@ const Layout = () => {
                     </div>
                 </div>
 
+                {/* Mobile Scroller Nav */}
+                <div className="md:hidden w-full overflow-x-auto flex items-center gap-4 px-4 h-[50px] no-scrollbar border-t border-gray-800/50">
+                    <Link to="/" className={`whitespace-nowrap ${location.pathname === '/' ? 'text-rodetes-pink' : 'text-gray-300'}`}>INICIO</Link>
+                    <Link to="/events" className={`whitespace-nowrap ${location.pathname === '/events' ? 'text-rodetes-pink' : 'text-gray-300'}`}>EVENTOS</Link>
+                    <Link to="/gallery" className={`whitespace-nowrap ${location.pathname === '/gallery' ? 'text-rodetes-pink' : 'text-gray-300'}`}>GALERÍA</Link>
+                    <Link to="/merch" className={`whitespace-nowrap ${location.pathname === '/merch' ? 'text-rodetes-pink' : 'text-gray-300'}`}>MERCH</Link>
+                    <Link to="/drags" className={`whitespace-nowrap ${location.pathname === '/drags' ? 'text-rodetes-pink' : 'text-gray-300'}`}>DRAGS</Link>
+                </div>
+
                 {/* Mobile Menu Overlay */}
                 {isMobileOpen && (
                     <div
-                        className="md:hidden fixed inset-x-0 bottom-0 bg-black z-40 flex flex-col items-center justify-start pt-12 gap-6"
+                        className="md:hidden fixed inset-x-0 bottom-0 bg-black/90 backdrop-blur-md z-40 flex flex-col items-center justify-start pt-12 gap-6"
                         style={{
                             top: `${bannerHeight + headerHeight}px`
                         }}
