@@ -1,4 +1,3 @@
-import React from 'react';
 import { usePublicEvents } from '../hooks/useEvents';
 import Card from '../components/common/Card';
 import Loader from '../components/common/Loader';

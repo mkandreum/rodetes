@@ -2,9 +2,27 @@ import { Request, Response } from 'express';
 import { query } from '../models/db';
 
 // Get all drags (Public)
+// Get all drags (Public)
 export const getAllDrags = async (req: Request, res: Response) => {
     try {
-        const result = await query('SELECT * FROM drags ORDER BY name ASC');
+        const result = await query(`
+            SELECT d.*, 
+                   COALESCE(
+                       json_agg(
+                           json_build_object(
+                               'id', m.id,
+                               'name', m.name,
+                               'price', m.price,
+                               'image_url', m.image_url
+                           ) ORDER BY m.id
+                       ) FILTER (WHERE m.id IS NOT NULL), 
+                       '[]'
+                   ) as merch
+            FROM drags d
+            LEFT JOIN merch_items m ON d.id = m.drag_id
+            GROUP BY d.id
+            ORDER BY d.name ASC
+        `);
         res.json(result.rows);
     } catch (error) {
         console.error('Error fetching drags:', error);

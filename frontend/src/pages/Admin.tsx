@@ -1,6 +1,5 @@
-import React from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Calendar, Users, ShoppingBag, FolderOpen, Camera, QrCode, Settings, Shuffle } from 'lucide-react';
+import { Calendar, Users, ShoppingBag, Camera, QrCode, Settings, Shuffle } from 'lucide-react';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminEvents from './admin/AdminEvents';
 import AdminDrags from './admin/AdminDrags';

@@ -1,7 +1,7 @@
-import React from 'react';
-import { cn } from '../../utils/cn'; // Assuming utility or simple class merge
+import { ButtonHTMLAttributes } from 'react';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'danger' | 'outline';
     size?: 'sm' | 'md' | 'lg';
 }

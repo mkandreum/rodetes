@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useMerch } from '../hooks/useMerch';
 import { useDrags } from '../hooks/useDrags';
 import Card from '../components/common/Card';

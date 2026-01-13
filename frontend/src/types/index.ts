@@ -19,7 +19,12 @@ export interface Drag {
     instagram: string;
     cover_image_url: string;
     card_color: string;
-    merchItems?: MerchItem[]; // Optional, populated in some views
+    merch?: {
+        id: number;
+        name: string;
+        price: number;
+        image_url: string;
+    }[];
 }
 
 export interface MerchItem {

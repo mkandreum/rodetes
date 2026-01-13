@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useGallery } from '../hooks/useGallery';
 import Loader from '../components/common/Loader';
-import Card from '../components/common/Card';
+
 
 const Gallery = () => {
     const { data: photos, isLoading, error } = useGallery();
