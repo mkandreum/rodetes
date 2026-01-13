@@ -167,9 +167,10 @@ const AdminEvents = () => {
                             <label className="block text-gray-400 mb-1">Entradas Disponibles</label>
                             <input
                                 type="number"
-                                value={editingEvent?.ticket_availability || 0}
-                                onChange={e => handleChange('ticket_availability', parseInt(e.target.value))}
+                                value={editingEvent?.ticket_availability ?? ''}
+                                onChange={e => handleChange('ticket_availability', e.target.value === '' ? null : parseInt(e.target.value))}
                                 className="w-full bg-black border border-gray-700 text-white p-2"
+                                min="0"
                             />
                         </div>
                     </div>
