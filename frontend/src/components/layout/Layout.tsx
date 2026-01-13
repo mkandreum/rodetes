@@ -17,11 +17,22 @@ const Layout = () => {
     const mobileNavLinkClass = (path: string) =>
         `text-2xl font-pixel py-4 hover:text-rodetes-pink transition-colors ${location.pathname === path ? 'text-rodetes-pink' : 'text-white'}`;
 
+    const bannerVisible = settings?.promoEnabled && settings?.promoCustomText;
+    const bannerHeight = bannerVisible ? 40 : 0;
+    const headerHeight = 83;
+
     return (
         <div className="min-h-screen bg-black text-white font-pixel selection:bg-rodetes-pink selection:text-white flex flex-col">
             <Banner />
             {/* Header */}
-            <header className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800 h-[83px]" style={{ top: 'auto' }}>
+            <header
+                className="fixed w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800"
+                style={{
+                    height: `${headerHeight}px`,
+                    top: `${bannerHeight}px`,
+                    transition: 'top 0.3s ease'
+                }}
+            >
                 <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                     <Link to="/" className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rodetes-pink to-rodetes-blue hover:opacity-80 transition-opacity">
                         {settings?.appLogoUrl ? (
@@ -94,7 +105,10 @@ const Layout = () => {
             </header>
 
             {/* Main Content */}
-            <main className="flex-1 container mx-auto px-4 py-8 mt-[120px]">
+            <main
+                className="flex-1 container mx-auto px-4 py-8"
+                style={{ marginTop: `${bannerHeight + headerHeight}px` }}
+            >
                 <Outlet />
             </main>
 

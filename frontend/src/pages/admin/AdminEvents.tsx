@@ -174,6 +174,16 @@ const AdminEvents = () => {
                             />
                         </div>
                     </div>
+                    <div className="flex items-center space-x-2 py-2">
+                        <input
+                            type="checkbox"
+                            id="is_visible"
+                            checked={editingEvent?.is_visible !== false}
+                            onChange={e => handleChange('is_visible', e.target.checked)}
+                            className="h-5 w-5 bg-black border-gray-700 text-rodetes-pink"
+                        />
+                        <label htmlFor="is_visible" className="text-gray-300">Evento Visible al Público</label>
+                    </div>
 
                     <FileUpload
                         label="Póster del Evento"

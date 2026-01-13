@@ -9,10 +9,16 @@ export const Banner: React.FC = () => {
 
     const nextEvent = useMemo(() => {
         if (!events || events.length === 0) return null;
-        const now = new Date();
-        return events
-            .filter(e => e && e.is_visible && e.date && new Date(e.date) > now)
-            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] || null;
+
+        // Include events from today onwards
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const filtered = events
+            .filter(e => e && e.is_visible && e.date && new Date(e.date) >= today)
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+        return filtered[0] || null;
     }, [events]);
 
     if (!settings?.promoEnabled || !settings?.promoCustomText || !nextEvent) {
@@ -39,12 +45,11 @@ export const Banner: React.FC = () => {
 
     return (
         <div
-            className="w-full relative overflow-hidden z-50 shadow-md border-b"
+            className="w-full fixed top-0 left-0 overflow-hidden z-[60] shadow-md border-b"
             style={{
                 backgroundColor: 'rgba(0,0,0,0.9)',
                 height: '40px',
-                borderColor: neonColor,
-                zIndex: 60 // Ensure it's above the header (header is usuall 50)
+                borderColor: neonColor
             }}
         >
             <div className="absolute whitespace-nowrap animate-marquee flex items-center h-full">
