@@ -1,12 +1,20 @@
+import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
+import { useSettings } from '../../hooks/useSettings';
+import { Menu, X } from 'lucide-react';
 
 const Layout = () => {
     const { isAuthenticated, logout } = useAuthStore();
     const location = useLocation();
+    const { settings } = useSettings();
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     const navLinkClass = (path: string) =>
         `text-lg font-pixel px-4 py-2 hover:text-rodetes-pink transition-colors ${location.pathname === path ? 'text-rodetes-pink' : 'text-white'}`;
+
+    const mobileNavLinkClass = (path: string) =>
+        `text-2xl font-pixel py-4 hover:text-rodetes-pink transition-colors ${location.pathname === path ? 'text-rodetes-pink' : 'text-white'}`;
 
     return (
         <div className="min-h-screen flex flex-col bg-black text-white font-pixel">
@@ -14,9 +22,14 @@ const Layout = () => {
             <header className="border-b border-gray-800 bg-black/90 sticky top-0 z-50 backdrop-blur-sm">
                 <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                     <Link to="/" className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rodetes-pink to-rodetes-blue hover:opacity-80 transition-opacity">
-                        RODETES
+                        {settings?.appLogoUrl ? (
+                            <img src={settings.appLogoUrl} alt="RODETES" className="h-[50px] object-contain" />
+                        ) : (
+                            "RODETES"
+                        )}
                     </Link>
 
+                    {/* Desktop Nav */}
                     <nav className="hidden md:flex gap-2">
                         <Link to="/" className={navLinkClass('/')}>INICIO</Link>
                         <Link to="/events" className={navLinkClass('/events')}>EVENTOS</Link>
@@ -25,7 +38,15 @@ const Layout = () => {
                         <Link to="/gallery" className={navLinkClass('/gallery')}>GALERÍA</Link>
                     </nav>
 
-                    <div className="flex items-center gap-4">
+                    {/* Mobile Toggle */}
+                    <button
+                        className="md:hidden text-white hover:text-rodetes-pink transition-colors"
+                        onClick={() => setIsMobileOpen(!isMobileOpen)}
+                    >
+                        {isMobileOpen ? <X size={32} /> : <Menu size={32} />}
+                    </button>
+
+                    <div className="hidden md:flex items-center gap-4">
                         {isAuthenticated ? (
                             <>
                                 <Link to="/admin" className="text-rodetes-blue hover:text-white transition-colors">ADMIN</Link>
@@ -41,6 +62,33 @@ const Layout = () => {
                         )}
                     </div>
                 </div>
+
+                {/* Mobile Menu Overlay */}
+                {isMobileOpen && (
+                    <div className="md:hidden fixed inset-0 top-[83px] bg-black/95 z-40 flex flex-col items-center justify-start pt-12 gap-6 h-[calc(100vh-83px)]">
+                        <Link to="/" className={mobileNavLinkClass('/')} onClick={() => setIsMobileOpen(false)}>INICIO</Link>
+                        <Link to="/events" className={mobileNavLinkClass('/events')} onClick={() => setIsMobileOpen(false)}>EVENTOS</Link>
+                        <Link to="/drags" className={mobileNavLinkClass('/drags')} onClick={() => setIsMobileOpen(false)}>DRAGS</Link>
+                        <Link to="/merch" className={mobileNavLinkClass('/merch')} onClick={() => setIsMobileOpen(false)}>MERCH</Link>
+                        <Link to="/gallery" className={mobileNavLinkClass('/gallery')} onClick={() => setIsMobileOpen(false)}>GALERÍA</Link>
+
+                        <div className="w-16 h-[1px] bg-gray-800 my-4"></div>
+
+                        {isAuthenticated ? (
+                            <>
+                                <Link to="/admin" className="text-xl text-rodetes-blue" onClick={() => setIsMobileOpen(false)}>ADMIN PANEL</Link>
+                                <button
+                                    onClick={() => { logout(); setIsMobileOpen(false); }}
+                                    className="text-xl text-red-500 font-pixel mt-4"
+                                >
+                                    LOGOUT
+                                </button>
+                            </>
+                        ) : (
+                            <Link to="/login" className="text-xl text-gray-400" onClick={() => setIsMobileOpen(false)}>LOGIN</Link>
+                        )}
+                    </div>
+                )}
             </header>
 
             {/* Main Content */}

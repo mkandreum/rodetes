@@ -28,9 +28,11 @@ services:
       DATABASE_URL: postgresql://rodetes_user:rodetes_password@rodetes_postgres:5432/rodetes_db
       JWT_SECRET: dev_secret_key_12345
       PORT: 3000
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@rodetes.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
     volumes:
-      - ./backend/uploads:/app/uploads
-      - ./backend/legacy_data:/app/legacy_data
+      - rodetes_uploads:/app/backend/uploads
+      - rodetes_legacy:/app/backend/legacy_data
     ports:
       - "3001:3000"
     depends_on:
@@ -39,3 +41,5 @@ services:
 
 volumes:
   postgres_data:
+  rodetes_uploads:
+  rodetes_legacy:

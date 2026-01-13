@@ -23,6 +23,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Seed Admin User
+import seedAdminUser from './scripts/seed';
+seedAdminUser().catch(err => console.error('Seed execution failed:', err));
+
 // Static files (uploads)
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
