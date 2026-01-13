@@ -5,6 +5,7 @@ import Card from '../components/common/Card';
 import Loader from '../components/common/Loader';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
+import PurchaseForm from '../components/merch/PurchaseForm';
 
 const Merch = () => {
     // Fetch Web Merch (dragId: null is handled by backend logic or filtering)
@@ -94,30 +95,13 @@ const Merch = () => {
                 </section>
             ))}
 
-            {/* PURCHASE MODAL (Mockup) */}
+            {/* PURCHASE MODAL */}
             <Modal
                 isOpen={!!selectedItem}
                 onClose={() => setSelectedItem(null)}
-                title={selectedItem?.name}
+                title={`Comprar: ${selectedItem?.name}`}
             >
-                <div className="text-center space-y-6">
-                    <img src={selectedItem?.image_url} alt={selectedItem?.name} loading="lazy" className="w-full h-48 sm:h-64 object-cover border border-gray-600" />
-
-                    <div>
-                        <p className="text-gray-300">Estás a punto de comprar:</p>
-                        <h4 className="text-2xl font-bold text-white">{selectedItem?.name}</h4>
-                        <p className="text-rodetes-pink text-3xl font-bold mt-2">{selectedItem?.price} €</p>
-                    </div>
-
-                    <p className="text-sm text-gray-400 bg-gray-800 p-4 border border-gray-700">
-                        ⚠️ En esta versión demo, el sistema de pagos no está activo.
-                        <br />Esta ventana es una demostración del flujo de compra.
-                    </p>
-
-                    <Button className="w-full bg-green-600 hover:bg-green-500 text-white border-none touch-feedback">
-                        CONTINUAR AL PAGO
-                    </Button>
-                </div>
+                <PurchaseForm item={selectedItem} onClose={() => setSelectedItem(null)} />
             </Modal>
 
         </div>

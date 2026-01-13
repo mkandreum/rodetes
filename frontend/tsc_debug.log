@@ -1,0 +1,38 @@
+src/components/common/ToastContainer.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/layout/Banner.tsx(4,23): error TS2307: Cannot find module '../../types' or its corresponding type declarations.
+src/components/layout/Layout.tsx(23,11): error TS6133: 'mobileNavLinkClass' is declared but its value is never read.
+src/components/modals/TicketPurchaseModal.tsx(5,23): error TS2307: Cannot find module '../../types' or its corresponding type declarations.
+src/components/modals/TicketSuccessModal.tsx(7,31): error TS2307: Cannot find module '../../types' or its corresponding type declarations.
+src/context/ToastContext.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/main.tsx(24,17): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/pages/Admin.tsx(4,10): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/Admin.tsx(4,20): error TS6133: 'Users' is declared but its value is never read.
+src/pages/Admin.tsx(4,27): error TS6133: 'ShoppingBag' is declared but its value is never read.
+src/pages/Admin.tsx(4,40): error TS6133: 'Camera' is declared but its value is never read.
+src/pages/Admin.tsx(4,56): error TS6133: 'Settings' is declared but its value is never read.
+src/pages/Admin.tsx(4,66): error TS6133: 'Shuffle' is declared but its value is never read.
+src/pages/admin/AdminDrags.tsx(8,22): error TS2307: Cannot find module '../../types' or its corresponding type declarations.
+src/pages/admin/AdminDrags.tsx(55,24): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/pages/admin/AdminEvents.tsx(9,23): error TS2307: Cannot find module '../../types' or its corresponding type declarations.
+src/pages/admin/AdminEvents.tsx(58,25): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/pages/admin/AdminGiveaway.tsx(8,24): error TS2307: Cannot find module '../../types' or its corresponding type declarations.
+src/pages/admin/AdminGiveaway.tsx(101,123): error TS2339: Property 'ticket_id' does not exist on type 'Winner'.
+src/pages/admin/AdminGiveaway.tsx(102,111): error TS2339: Property 'name' does not exist on type 'Winner'.
+src/pages/admin/AdminGiveaway.tsx(102,125): error TS2339: Property 'surname' does not exist on type 'Winner'.
+src/pages/admin/AdminGiveaway.tsx(103,98): error TS2339: Property 'email' does not exist on type 'Winner'.
+src/pages/admin/AdminMerch.tsx(10,27): error TS2307: Cannot find module '../../types' or its corresponding type declarations.
+src/pages/admin/AdminMerch.tsx(87,24): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/pages/Events.tsx(47,25): error TS2322: Type '{ children: Element[]; key: number; title: string; subtitle: string; image: string; imageProps: { loading: string; }; }' is not assignable to type 'IntrinsicAttributes & CardProps'.
+  Property 'imageProps' does not exist on type 'IntrinsicAttributes & CardProps'.
+src/pages/Home.tsx(2,10): error TS2305: Module '"../hooks/useEvents"' has no exported member 'useEvents'.
+src/pages/Home.tsx(9,11): error TS6133: 'settings' is declared but its value is never read.
+src/pages/Home.tsx(18,41): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/pages/Home.tsx(21,14): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/pages/Home.tsx(21,17): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/pages/Home.tsx(23,39): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/pages/Home.tsx(26,14): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/pages/Home.tsx(26,17): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/pages/Merch.tsx(49,33): error TS2322: Type '{ children: Element; key: number; title: string; subtitle: string; image: string; imageProps: { loading: string; }; }' is not assignable to type 'IntrinsicAttributes & CardProps'.
+  Property 'imageProps' does not exist on type 'IntrinsicAttributes & CardProps'.
+src/pages/Merch.tsx(79,33): error TS2322: Type '{ children: Element; key: number; title: string; subtitle: string; image: string; imageProps: { loading: string; }; color: string; }' is not assignable to type 'IntrinsicAttributes & CardProps'.
+  Property 'imageProps' does not exist on type 'IntrinsicAttributes & CardProps'.

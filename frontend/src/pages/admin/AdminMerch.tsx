@@ -7,7 +7,7 @@ import Button from '../../components/common/Button';
 import Modal from '../../components/common/Modal';
 import FileUpload from '../../components/common/FileUpload';
 import { Edit, Trash2, Plus, List } from 'lucide-react';
-import { MerchItem } from '../../types';
+import { MerchItem } from '@rodetes/types';
 import api from '../../api/client';
 
 const AdminMerch = () => {

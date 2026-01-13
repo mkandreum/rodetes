@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../api/client';
-import { Ticket } from '../types';
+import { Ticket } from '@rodetes/types';
 
 interface CreateTicketData {
     event_id: number;

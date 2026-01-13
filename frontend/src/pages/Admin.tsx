@@ -25,14 +25,14 @@ const Admin = () => {
     };
 
     const menuItems = [
-        { name: 'DASHBOARD', path: '', icon: null },
-        { name: 'EVENTOS', path: 'events', icon: null },
-        { name: 'DRAGS', path: 'drags', icon: null },
-        { name: 'MERCH', path: 'merch', icon: null },
-        { name: 'SORTEO', path: 'giveaway', icon: null },
-        { name: 'GALERÍA', path: 'gallery', icon: null },
-        { name: 'SCANNER', path: 'scanner', icon: null },
-        { name: 'AJUSTES', path: 'settings', icon: null },
+        { name: 'DASHBOARD', path: '', icon: <Settings size={20} /> }, // Using Settings as placeholder or import LayoutDashboard
+        { name: 'EVENTOS', path: 'events', icon: <Calendar size={20} /> },
+        { name: 'DRAGS', path: 'drags', icon: <Users size={20} /> },
+        { name: 'MERCH', path: 'merch', icon: <ShoppingBag size={20} /> },
+        { name: 'SORTEO', path: 'giveaway', icon: <Shuffle size={20} /> },
+        { name: 'GALERÍA', path: 'gallery', icon: <Camera size={20} /> },
+        { name: 'SCANNER', path: 'scanner', icon: <QrCode size={20} /> },
+        { name: 'AJUSTES', path: 'settings', icon: <Settings size={20} /> },
     ];
 
     return (
@@ -71,11 +71,14 @@ const Admin = () => {
                                     key={item.name}
                                     to={item.path}
                                     className={`px-6 py-4 text-xl font-pixel uppercase transition-colors border-r border-gray-800 last:border-r-0 ${isActive
-                                            ? 'bg-white text-black'
-                                            : 'bg-black text-white hover:bg-gray-800'
+                                        ? 'bg-white text-black'
+                                        : 'bg-black text-white hover:bg-gray-800'
                                         }`}
                                 >
-                                    {item.name}
+                                    <span className="flex items-center gap-2">
+                                        {item.icon}
+                                        {item.name}
+                                    </span>
                                 </Link>
                             );
                         })}

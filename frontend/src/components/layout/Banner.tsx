@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useSettings } from '../../hooks/useSettings';
 import { usePublicEvents } from '../../hooks/useEvents';
-import { Event } from '../../types';
+import { Event } from '@rodetes/types';
 
 export const Banner: React.FC = () => {
     const { settings } = useSettings();

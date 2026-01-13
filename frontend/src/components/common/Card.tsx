@@ -8,9 +8,10 @@ interface CardProps {
     footer?: React.ReactNode;
     className?: string;
     color?: string; // Hex color for border or accent
+    imageProps?: React.ImgHTMLAttributes<HTMLImageElement>;
 }
 
-const Card = ({ image, title, subtitle, children, footer, className, color }: CardProps) => {
+const Card = ({ image, title, subtitle, children, footer, className, color, imageProps }: CardProps) => {
     const borderStyle = color ? { borderColor: color } : {};
 
     return (
@@ -24,6 +25,7 @@ const Card = ({ image, title, subtitle, children, footer, className, color }: Ca
                         src={image}
                         alt={title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        {...imageProps}
                     />
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
                 </div>

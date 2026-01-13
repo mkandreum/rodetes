@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Modal from '../common/Modal';
 import Button from '../common/Button';
 import { useTicketMutations } from '../../hooks/useTickets';
-import { Event } from '../../types';
+import { Event } from '@rodetes/types';
 
 interface TicketPurchaseModalProps {
     isOpen: boolean;

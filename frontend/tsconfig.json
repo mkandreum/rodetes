@@ -25,11 +25,15 @@
         "paths": {
             "@/*": [
                 "./src/*"
+            ],
+            "@rodetes/types": [
+                "../../packages/shared/src/index.ts"
             ]
         }
     },
     "include": [
-        "src"
+        "src",
+        "../../packages/shared/src"
     ],
     "references": [
         {

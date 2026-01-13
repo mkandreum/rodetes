@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../api/client';
-import { MerchItem } from '../types';
+import { MerchItem } from '@rodetes/types';
 
 // Fetch all merch (optionally filtered by filters object)
 export const useMerch = (filters?: { type?: 'web'; dragId?: number }) => {

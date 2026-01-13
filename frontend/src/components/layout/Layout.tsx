@@ -119,21 +119,21 @@ const Layout = () => {
                             {/* Menu */}
                             <div className="absolute top-full right-4 w-72 bg-black border-2 border-white z-50 shadow-[0_0_15px_rgba(255,255,255,0.2)] md:hidden animate-slide-up">
                                 <div className="flex flex-col py-2">
-                                    <Link to="/" className="text-white hover:bg-gray-800 px-4 py-3 text-lg font-pixel transition-colors touch-target" onClick={() => setIsMobileOpen(false)}>INICIO</Link>
-                                    <Link to="/events" className="text-white hover:bg-gray-800 px-4 py-3 text-lg font-pixel transition-colors touch-target" onClick={() => setIsMobileOpen(false)}>EVENTOS</Link>
-                                    <Link to="/drags" className="text-white hover:bg-gray-800 px-4 py-3 text-lg font-pixel transition-colors touch-target" onClick={() => setIsMobileOpen(false)}>DRAGS</Link>
-                                    <Link to="/merch" className="text-white hover:bg-gray-800 px-4 py-3 text-lg font-pixel transition-colors touch-target" onClick={() => setIsMobileOpen(false)}>MERCH</Link>
-                                    <Link to="/gallery" className="text-white hover:bg-gray-800 px-4 py-3 text-lg font-pixel transition-colors touch-target" onClick={() => setIsMobileOpen(false)}>GALERÍA</Link>
+                                    <Link to="/" className={mobileNavLinkClass('/')} onClick={() => setIsMobileOpen(false)}>INICIO</Link>
+                                    <Link to="/events" className={mobileNavLinkClass('/events')} onClick={() => setIsMobileOpen(false)}>EVENTOS</Link>
+                                    <Link to="/drags" className={mobileNavLinkClass('/drags')} onClick={() => setIsMobileOpen(false)}>DRAGS</Link>
+                                    <Link to="/merch" className={mobileNavLinkClass('/merch')} onClick={() => setIsMobileOpen(false)}>MERCH</Link>
+                                    <Link to="/gallery" className={mobileNavLinkClass('/gallery')} onClick={() => setIsMobileOpen(false)}>GALERÍA</Link>
 
                                     <div className="h-px bg-gray-700 my-2 mx-4"></div>
 
                                     {isAuthenticated ? (
                                         <>
-                                            <Link to="/admin" className="text-rodetes-pink hover:bg-gray-800 px-4 py-3 text-lg font-pixel transition-colors touch-target" onClick={() => setIsMobileOpen(false)}>ADMIN PANEL</Link>
+                                            <Link to="/admin" className={mobileNavLinkClass('/admin')} onClick={() => setIsMobileOpen(false)}>ADMIN PANEL</Link>
                                             <button onClick={() => { logout(); setIsMobileOpen(false); success('Sesión cerrada'); }} className="text-red-500 hover:bg-gray-800 px-4 py-3 text-lg font-pixel text-left transition-colors touch-target">CERRAR SESIÓN</button>
                                         </>
                                     ) : (
-                                        <Link to="/login" className="text-gray-400 hover:bg-gray-800 px-4 py-3 text-lg font-pixel transition-colors touch-target" onClick={() => setIsMobileOpen(false)}>LOGIN</Link>
+                                        <Link to="/login" className={mobileNavLinkClass('/login')} onClick={() => setIsMobileOpen(false)}>LOGIN</Link>
                                     )}
                                 </div>
                             </div>

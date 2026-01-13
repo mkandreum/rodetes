@@ -5,7 +5,7 @@ import Loader from '../components/common/Loader';
 import Button from '../components/common/Button';
 import TicketPurchaseModal from '../components/modals/TicketPurchaseModal';
 import TicketSuccessModal from '../components/modals/TicketSuccessModal';
-import { Event, Ticket } from '../types';
+import { Event, Ticket } from '@rodetes/types';
 
 const Events = () => {
     const { data: events, isLoading, error } = usePublicEvents();

@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useEvents } from '../hooks/useEvents';
+import { usePublicEvents as useEvents } from '../hooks/useEvents';
 import Button from '../components/common/Button';
 import Loader from '../components/common/Loader';
-import { useSettings } from '../hooks/useSettings';
 
 const Home = () => {
     const { data: events, isLoading } = useEvents();
-    const { settings } = useSettings();
 
     if (isLoading) return <Loader />;
 
@@ -66,8 +64,8 @@ const Home = () => {
                     <h3 className="text-2xl sm:text-3xl md:text-5xl text-gray-500 mb-8 font-pixel uppercase">LO QUE TE PERDISTE...</h3>
                     <div className="max-w-4xl mx-auto opacity-70 hover:opacity-100 transition-opacity duration-300">
                         <div className="bg-gray-900 border border-gray-700 p-4 sm:p-6 flex flex-col md:flex-row gap-6 items-center touch-feedback">
-                            {lastEvent.image_url && (
-                                <img src={lastEvent.image_url} alt={lastEvent.title} loading="lazy" className="w-full md:w-1/3 aspect-square object-cover grayscale hover:grayscale-0 transition-all" />
+                            {lastEvent.poster_url && (
+                                <img src={lastEvent.poster_url} alt={lastEvent.title} loading="lazy" className="w-full md:w-1/3 aspect-square object-cover grayscale hover:grayscale-0 transition-all" />
                             )}
                             <div className="text-left flex-1">
                                 <h4 className="text-3xl text-white mb-2">{lastEvent.title}</h4>

@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import Modal from '../common/Modal';
 import Button from '../common/Button';
 import { QRCodeSVG } from 'qrcode.react';
 import html2canvas from 'html2canvas';
 import { Download, CheckCircle } from 'lucide-react';
-import { Ticket, Event } from '../../types';
+import { Ticket, Event } from '@rodetes/types';
 
 interface TicketSuccessModalProps {
     isOpen: boolean;

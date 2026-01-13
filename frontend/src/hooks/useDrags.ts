@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../api/client';
-import { Drag } from '../types';
+import { Drag } from '@rodetes/types';
 
 export const useDrags = () => {
     return useQuery({

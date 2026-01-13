@@ -1,4 +1,3 @@
-import React from 'react';
 import { useToast } from '../../context/ToastContext';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, CheckCircle, AlertCircle, Info } from 'lucide-react';
@@ -18,8 +17,8 @@ const ToastContainer = () => {
                         transition={{ duration: 0.3 }}
                         layout
                         className={`pointer-events-auto min-w-[300px] border border-gray-700 bg-black/90 backdrop-blur-md text-white p-4 shadow-lg shadow-black/50 flex items-start gap-3 rounded-none font-pixel relative group ${toast.type === 'success' ? 'border-l-4 border-l-rodetes-pink' :
-                                toast.type === 'error' ? 'border-l-4 border-l-red-500' :
-                                    'border-l-4 border-l-rodetes-blue'
+                            toast.type === 'error' ? 'border-l-4 border-l-red-500' :
+                                'border-l-4 border-l-rodetes-blue'
                             }`}
                     >
                         <div className="mt-1">

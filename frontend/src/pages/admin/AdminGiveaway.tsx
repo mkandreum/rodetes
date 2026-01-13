@@ -5,7 +5,7 @@ import client from '../../api/client';
 import Button from '../../components/common/Button';
 import Loader from '../../components/common/Loader';
 import { Trophy, Shuffle } from 'lucide-react';
-import { Ticket } from '../../types';
+import { Ticket } from '@rodetes/types';
 
 interface Winner extends Ticket {
     // reusing Ticket interface

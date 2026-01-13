@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../api/client';
-import { Event } from '../types';
+import { Event } from '@rodetes/types';
 
 // Fetch Public Events
 export const usePublicEvents = () => {

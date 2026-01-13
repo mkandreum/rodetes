@@ -6,7 +6,7 @@ import Button from '../../components/common/Button';
 import Modal from '../../components/common/Modal';
 import FileUpload from '../../components/common/FileUpload';
 import { Edit, Trash2, Plus } from 'lucide-react';
-import { Event } from '../../types';
+import { Event } from '@rodetes/types';
 import api from '../../api/client';
 
 const AdminEvents = () => {
