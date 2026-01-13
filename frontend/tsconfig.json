@@ -27,13 +27,13 @@
                 "./src/*"
             ],
             "@rodetes/types": [
-                "../../packages/shared/src/index.ts"
+                "../packages/shared/src/index.ts"
             ]
         }
     },
     "include": [
         "src",
-        "../../packages/shared/src"
+        "../packages/shared/src"
     ],
     "references": [
         {
