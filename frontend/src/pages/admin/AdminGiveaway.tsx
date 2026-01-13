@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import { useState } from 'react';
 import { useAdminEvents } from '../../hooks/useEvents';
 import client from '../../api/client';
 import Button from '../../components/common/Button';
@@ -25,7 +26,7 @@ const AdminGiveaway = () => {
         setWinners([]);
 
         try {
-            const { data } = await client.get(`/tickets/giveaway/${selectedEventId}?count=${numWinners}`);
+            const { data } = await client.get(`/ tickets / giveaway / ${selectedEventId}?count = ${numWinners} `);
             setWinners(data);
         } catch (err: any) {
             console.error(err);
