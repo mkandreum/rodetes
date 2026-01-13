@@ -11,15 +11,26 @@ const ensureDir = (dir: string) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        // Get upload type from request body or default to 'general'
+        console.log('--- Upload Request ---');
+        console.log('Body:', req.body);
+        console.log('File field:', file.fieldname);
+
         const uploadType = req.body.uploadType || 'general';
-        const uploadPath = path.join(__dirname, '../../uploads', uploadType);
-        ensureDir(uploadPath);
-        cb(null, uploadPath);
+        const uploadPath = path.resolve(__dirname, '../../uploads', uploadType);
+
+        console.log('Upload target path:', uploadPath);
+
+        try {
+            ensureDir(uploadPath);
+            cb(null, uploadPath);
+        } catch (err: any) {
+            console.error('Directory creation failed:', err);
+            cb(err, '');
+        }
     },
     filename: (req, file, cb) => {
-        // Generate unique filename with timestamp
-        const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(file.originalname)}`;
+        const uniqueName = `${Date.now()}-${file.originalname.replace(/\s+/g, '-')}`;
+        console.log('Generated filename:', uniqueName);
         cb(null, uniqueName);
     }
 });

@@ -13,10 +13,13 @@ const AdminScanner = () => {
         // Only init scanner if we don't have a result currently showing
         if (scanResult) return;
 
+        const readerElement = document.getElementById('reader');
+        if (!readerElement) return;
+
         const scanner = new Html5QrcodeScanner(
             "reader",
             { fps: 10, qrbox: { width: 250, height: 250 } },
-      /* verbose= */ false
+            /* verbose= */ false
         );
 
         scanner.render(onScanSuccess, onScanFailure);
@@ -27,11 +30,18 @@ const AdminScanner = () => {
         }
 
         function onScanFailure() {
-            // console.warn(`Code scan error = ${error}`);
+            // Silence noise
         }
 
         return () => {
-            scanner.clear().catch(error => console.error("Failed to clean up scanner", error));
+            if (scanner) {
+                scanner.clear().catch(error => {
+                    // Ignore "element not found" errors during cleanup
+                    if (!error?.includes?.('No element with id')) {
+                        console.error("Scanner cleanup error", error);
+                    }
+                });
+            }
         };
     }, [scanResult]);
 

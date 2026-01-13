@@ -5,7 +5,7 @@ import { authenticate } from '../middleware/auth';
 const router = Router();
 
 // Public (Purchase)
-router.post('/purchase', createTicket);
+router.post('/', createTicket);
 
 // Admin / Scanner (Protected)
 router.get('/', authenticate, getAllTickets);
