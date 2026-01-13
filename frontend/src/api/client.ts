@@ -2,9 +2,6 @@ import axios from 'axios';
 
 const api = axios.create({
     baseURL: '/api', // Proxy in vite config handles redirection to backend
-    headers: {
-        'Content-Type': 'application/json',
-    },
 });
 
 // Interceptor to add token to requests
