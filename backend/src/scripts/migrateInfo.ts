@@ -1,7 +1,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { pool } from '../models/db';
+import pool from '../models/db';
 
 const LEGACY_PATH = path.join(__dirname, '../../legacy_data');
 
