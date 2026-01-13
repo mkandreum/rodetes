@@ -49,65 +49,23 @@ export const Banner: React.FC = () => {
 
     return (
         <div
-            className="w-full fixed top-0 left-0 overflow-hidden z-[60] shadow-md border-b"
+            className="w-full fixed top-0 left-0 overflow-hidden z-[60] shadow-md border-b-2 border-black"
             style={{
-                backgroundColor: 'rgba(0,0,0,0.9)',
+                backgroundColor: '#FACC15', // Yellow-400
                 height: '40px',
-                borderColor: neonColor
             }}
         >
-            <span
-                className="font-pixel text-sm md:text-lg px-4 gpu-accelerate"
-                style={{
-                    color: neonColor,
-                    textShadow: `
-                            0 0 5px #fff,
-                            0 0 10px #fff,
-                            0 0 15px ${neonColor},
-                            0 0 20px ${neonColor},
-                            0 0 25px ${neonColor},
-                            0 0 30px ${neonColor},
-                            0 0 35px ${neonColor}
-                        `
-                }}
-            >
-                {displayText}
-            </span>
-            {/* Duplicate for seamless loop */}
-            <span
-                className="font-pixel text-sm md:text-lg px-4 gpu-accelerate"
-                style={{
-                    color: neonColor,
-                    textShadow: `
-                            0 0 5px #fff,
-                            0 0 10px #fff,
-                            0 0 15px ${neonColor},
-                            0 0 20px ${neonColor},
-                            0 0 25px ${neonColor},
-                            0 0 30px ${neonColor},
-                            0 0 35px ${neonColor}
-                        `
-                }}
-            >
-                {displayText}
-            </span>
-            <span
-                className="font-pixel text-sm md:text-lg px-4 gpu-accelerate"
-                style={{
-                    color: neonColor,
-                    textShadow: `
-                            0 0 5px #fff,
-                            0 0 10px #fff,
-                            0 0 15px ${neonColor},
-                            0 0 20px ${neonColor},
-                            0 0 25px ${neonColor},
-                           0 0 30px ${neonColor},
-                            0 0 35px ${neonColor}
-                        `
-                }}
-            >
-                {displayText}
-            </span>
+            <div className="w-full h-full flex items-center overflow-hidden whitespace-nowrap">
+                <span
+                    className="font-pixel text-sm md:text-lg font-bold uppercase animate-marquee"
+                    style={{
+                        color: 'black',
+                        textShadow: 'none'
+                    }}
+                >
+                    {displayText} • {displayText} • {displayText} • {displayText} • {displayText}
+                </span>
+            </div>
         </div>
     );
 };

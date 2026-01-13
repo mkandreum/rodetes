@@ -2,66 +2,38 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Ensure upload directories exist
-const ensureDir = (dir: string) => {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-    }
-};
+// Ensure uploads directory exists
+const uploadDir = path.join(process.cwd(), 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
+// Configure storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log('--- Upload Request ---');
-        console.log('Headers:', req.headers);
-        console.log('Body:', req.body);
-        console.log('File field:', file.fieldname);
-
-        // Take uploadType from header, query or body
-        const uploadType = (req.headers['x-upload-type'] as string) || req.body.uploadType || 'general';
-
-        // Use UPLOAD_DIR env var if present (best for Docker), otherwise fallback to local dev structure
-        const baseUploadDir = process.env.UPLOAD_DIR || path.join(process.cwd(), 'uploads');
-        const uploadPath = path.resolve(baseUploadDir, uploadType);
-
-        console.log('Upload type determined:', uploadType);
-        console.log('Upload target path:', uploadPath);
-
-        try {
-            ensureDir(uploadPath);
-            cb(null, uploadPath);
-        } catch (err: any) {
-            console.error('Directory creation failed:', err);
-            cb(err, '');
-        }
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-        const uniqueName = `${Date.now()}-${file.originalname.replace(/\s+/g, '-')}`;
-        console.log('Generated filename:', uniqueName);
-        cb(null, uniqueName);
+        // Generate unique filename: timestamp-random.ext
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = path.extname(file.originalname);
+        cb(null, 'gallery-' + uniqueSuffix + ext);
     }
 });
 
+// File filter (images only)
 const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-    const allowedTypes = /jpeg|jpg|png|gif|webp/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
-
-    if (extname && mimetype) {
+    if (file.mimetype.startsWith('image/')) {
         cb(null, true);
     } else {
-        cb(new Error('Only image files are allowed (jpeg, jpg, png, gif, webp)'));
+        cb(new Error('Solo se permiten archivos de imagen'));
     }
 };
 
 export const upload = multer({
-    storage,
+    storage: storage,
+    fileFilter: fileFilter,
     limits: {
         fileSize: 5 * 1024 * 1024 // 5MB limit
-    },
-    fileFilter
+    }
 });
-
-// Helper function to get file URL
-export const getFileUrl = (filename: string, type: string): string => {
-    return `/uploads/${type}/${filename}`;
-};

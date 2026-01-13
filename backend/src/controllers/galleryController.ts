@@ -23,11 +23,17 @@ export const getGalleries = async (req: Request, res: Response) => {
 
 // Add Photo to Gallery (Admin)
 export const addPhoto = async (req: Request, res: Response) => {
-    const { event_id, image_url } = req.body;
+    const { event_id } = req.body;
+    const file = req.file;
 
-    if (!event_id || !image_url) {
-        return res.status(400).json({ message: 'Evento y URL de imagen requeridos' });
+    if (!event_id || !file) {
+        return res.status(400).json({ message: 'Evento y archivo de imagen requeridos' });
     }
+
+    // Construct public URL
+    // Assuming server runs on same domain/port proxy or we return relative path
+    // For local dev/prod with static serving: /uploads/filename
+    const image_url = `/uploads/${file.filename}`;
 
     try {
         const result = await query(

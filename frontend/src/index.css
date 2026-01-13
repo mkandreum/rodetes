@@ -5,11 +5,16 @@
 /* Custom Reset & Styles from original style.css */
 @layer components {
   .btn-primary {
-    @apply bg-white text-black font-pixel text-2xl py-2 px-6 rounded-none border border-gray-400 hover:bg-gray-300 transition-colors duration-300;
+    @apply bg-rodetes-pink text-white font-pixel text-xl py-3 px-8 rounded-none border border-transparent hover:bg-pink-600 hover:scale-105 transition-all duration-300;
   }
 }
 
 /* Animations */
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
 @keyframes neon-pulse {
 
   0%,
@@ -41,9 +46,16 @@
     opacity: 1;
   }
 
-  50% {
+  40% {
     opacity: 0.5;
   }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+  padding-left: 100%; /* Start off-screen */
 }
 
 .text-glow-white {

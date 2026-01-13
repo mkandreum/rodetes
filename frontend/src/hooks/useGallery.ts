@@ -23,7 +23,7 @@ export const useGalleryMutations = () => {
     const queryClient = useQueryClient();
 
     const addPhoto = useMutation({
-        mutationFn: (data: { event_id: number, image_url: string }) => api.post('/gallery', data),
+        mutationFn: (data: FormData) => api.post('/gallery', data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['gallery'] });
         },

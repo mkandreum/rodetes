@@ -30,29 +30,45 @@ const Home = () => {
         <div className="space-y-20 pb-20">
 
             {/* HERO SECTION: NEXT EVENT */}
-            <section className="text-center py-10 min-h-[50vh] flex flex-col justify-center items-center relative">
-
-                <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rodetes-pink to-rodetes-blue mb-4 glitch-hover leading-none relative z-10" data-text="RODETES">
-                    RODETES
-                </h1>
+            <section className="text-center py-6 min-h-[60vh] flex flex-col justify-start items-center relative gap-6">
 
                 {nextEvent ? (
-                    <div className="relative z-10 mt-8">
-                        <p className="text-xl sm:text-2xl md:text-4xl text-white mb-6 font-pixel text-glow-white animate-pulse">
-                            PRÓXIMO EVENTO:
-                        </p>
-                        <div className="border-2 sm:border-4 border-rodetes-pink p-4 sm:p-6 md:p-10 bg-black shadow-[0_0_30px_#F02D7D] max-w-4xl mx-auto transform hover:scale-105 transition-transform duration-300">
-                            <h2 className="text-2xl sm:text-4xl md:text-7xl font-bold text-white mb-2">{nextEvent.title}</h2>
-                            <p className="text-lg sm:text-xl md:text-3xl text-rodetes-pink mb-4">{new Date(nextEvent.date).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase()}</p>
-                            <Link to={`/events`}>
-                                <Button variant="neon" size="lg" className="mt-4 text-lg sm:text-xl md:text-2xl w-full md:w-auto touch-feedback">
+                    <div className="relative z-10 w-full max-w-lg mx-auto px-4 flex flex-col items-center">
+                        <div className="w-full mb-6 relative group">
+                            {/* Poster */}
+                            {nextEvent.poster_url ? (
+                                <img
+                                    src={nextEvent.poster_url}
+                                    alt={nextEvent.title}
+                                    className="w-full h-auto object-cover border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                                />
+                            ) : (
+                                <div className="w-full aspect-[3/4] bg-gray-900 border-4 border-gray-700 flex items-center justify-center">
+                                    <span className="text-gray-500 font-pixel">NO POSTER</span>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex flex-col items-center w-full gap-4">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white font-pixel uppercase tracking-widest text-center leading-tight">
+                                {nextEvent.title}
+                            </h2>
+                            <p className="text-xl text-rodetes-pink font-pixel text-center">
+                                {new Date(nextEvent.date).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase()}
+                            </p>
+
+                            <Link to={`/events`} className="w-full">
+                                <Button className="w-full bg-rodetes-pink hover:bg-pink-600 text-white font-bold py-4 text-xl border-none shadow-[0_0_15px_#F02D7D] touch-feedback">
                                     COMPRAR ENTRADAS
                                 </Button>
                             </Link>
                         </div>
                     </div>
                 ) : (
-                    <div className="relative z-10 mt-8">
+                    <div className="relative z-10 mt-20 text-center px-4">
+                        <h1 className="text-6xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rodetes-pink to-rodetes-blue mb-8 leading-none">
+                            RODETES
+                        </h1>
                         <p className="text-2xl text-gray-400 font-pixel">PRONTO MÁS NOVEDADES...</p>
                     </div>
                 )}

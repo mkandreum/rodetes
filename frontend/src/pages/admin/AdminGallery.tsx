@@ -11,17 +11,23 @@ const AdminGallery = () => {
     const { addPhoto, deletePhoto } = useGalleryMutations();
 
     const [eventId, setEventId] = useState<string>('');
-    const [imageUrl, setImageUrl] = useState('');
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     if (galleryLoading || eventsLoading) return <Loader />;
 
     const handleAddPhoto = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!eventId || !imageUrl) return;
+        if (!eventId || !selectedFile) return;
 
         try {
-            await addPhoto.mutateAsync({ event_id: parseInt(eventId), image_url: imageUrl });
-            setImageUrl('');
+            const formData = new FormData();
+            formData.append('event_id', eventId);
+            formData.append('image', selectedFile);
+
+            await addPhoto.mutateAsync(formData);
+            setSelectedFile(null);
+            // Reset file input value
+            (document.getElementById('fileInput') as HTMLInputElement).value = '';
             alert('Foto añadida correctamente');
         } catch (error) {
             console.error(error);
@@ -63,18 +69,18 @@ const AdminGallery = () => {
                     </div>
 
                     <div className="flex-1 w-full">
-                        <label className="block text-gray-400 mb-1">URL de la Imagen</label>
+                        <label className="block text-gray-400 mb-1">Imagen (JPG/PNG)</label>
                         <input
-                            type="text"
-                            value={imageUrl}
-                            onChange={(e) => setImageUrl(e.target.value)}
-                            placeholder="https://..."
+                            id="fileInput"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => setSelectedFile(e.target.files ? e.target.files[0] : null)}
                             className="w-full bg-black border border-gray-700 text-white p-2"
                             required
                         />
                     </div>
 
-                    <Button type="submit" className="bg-rodetes-pink border-none text-white hover:bg-pink-600">
+                    <Button type="submit" className="bg-rodetes-pink border-none text-white hover:bg-pink-600" disabled={!selectedFile || !eventId}>
                         <Plus size={20} /> AÑADIR
                     </Button>
                 </form>
