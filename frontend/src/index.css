@@ -62,6 +62,46 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
-.style-text-shadow-dark {
-  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8), 0 0 2px rgba(255, 255, 255, 0.5);
+text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8),
+0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+/* --- LEGACY COMPONENT STYLES --- */
+
+/* Legacy: .neon-btn (Pink Glow) */
+.neon-btn {
+  @apply bg-black text-rodetes-pink border-2 border-rodetes-pink font-pixel uppercase tracking-wider hover:bg-rodetes-pink hover:text-white transition-all duration-300;
+  box-shadow: 0 0 10px #F02D7D, inset 0 0 5px #F02D7D;
+  text-shadow: 0 0 5px #F02D7D;
+}
+
+.neon-btn:hover {
+  box-shadow: 0 0 20px #F02D7D, inset 0 0 10px #F02D7D;
+  text-shadow: none;
+}
+
+/* Legacy: Admin Gallery Grid */
+.admin-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+.admin-gallery-item {
+  @apply relative aspect-square border border-gray-600 bg-black overflow-hidden;
+}
+
+/* Global Overrides for "Identical" feel */
+@layer base {
+
+  input,
+  textarea,
+  select {
+    @apply rounded-none font-pixel border-white bg-gray-900 text-white focus:ring-1 focus:ring-rodetes-pink focus:border-rodetes-pink placeholder-gray-500 !important;
+  }
+
+  /* Buttons are always square in legacy */
+  button {
+    @apply rounded-none !important;
+  }
 }
