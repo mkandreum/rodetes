@@ -46,6 +46,7 @@ function loadInitialDataFromServer() {
 			// Asegurar estructuras mínimas si faltan por completo
 			appState.events = appState.events || [];
 			appState.drags = appState.drags || [];
+			appState.webMerch = appState.webMerch || []; // NUEVO: Merch de la web
 			appState.allowedDomains = appState.allowedDomains || [];
 			appState.scannedTickets = appState.scannedTickets || {};
 			appState.nextEventId = appState.nextEventId || 1;
@@ -85,7 +86,7 @@ function loadInitialDataFromServer() {
 		console.error("Error crítico procesando datos iniciales desde PHP:", e);
 		// En un caso real, podrías mostrar un error fatal al usuario aquí.
 		// Por ahora, inicializamos a estados vacíos/seguros.
-		appState = { events: [], drags: [], allowedDomains: [], scannedTickets: {}, nextEventId: 1, nextDragId: 1, nextMerchItemId: 1 };
+		appState = { events: [], _drags: [], webMerch: [], allowedDomains: [], scannedTickets: {}, nextEventId: 1, nextDragId: 1, nextMerchItemId: 1 };
 		allTickets = [];
 		allMerchSales = [];
 		isLoggedIn = false;
@@ -402,6 +403,9 @@ window.addEventListener('DOMContentLoaded', async () => {
 		// Re-renderizar contenido dinámico al mostrar la página correspondiente
 		if (pageId === 'events') {
 			renderPublicEvents(currentEvents); // Usa la variable local actualizada
+		}
+		if (pageId === 'merch') {
+			renderMerchPage(); // NUEVO: Renderizar página de merch
 		}
 		if (pageId === 'gallery') {
 			renderGalleryEventList();
@@ -1556,8 +1560,92 @@ window.addEventListener('DOMContentLoaded', async () => {
 	}
 
 	// --- FUNCIONALIDAD DE MERCH PÚBLICO ---
-	// (Esta sección empieza en la siguiente parte)
-	// --- FUNCIONALIDAD DE MERCH PÚBLICO ---
+
+	/**
+	 * Renderiza la página principal de Merchandising (Web + Drags).
+	 */
+	function renderMerchPage() {
+		const webMerchListContainer = document.getElementById('web-merch-list-container');
+		const dragsMerchListContainer = document.getElementById('drags-merch-list-container');
+
+		if (!webMerchListContainer || !dragsMerchListContainer) return;
+
+		// 1. Renderizar Web Merch
+		webMerchListContainer.innerHTML = '';
+		const webItems = appState.webMerch || [];
+
+		if (webItems.length === 0) {
+			webMerchListContainer.innerHTML = '<p class="text-gray-400 text-center col-span-full font-pixel">Próximamente merch oficial...</p>';
+		} else {
+			webItems.forEach(item => {
+				const card = createMerchCard(item, { id: 'web', name: 'Rodetes Web' });
+				webMerchListContainer.appendChild(card);
+			});
+		}
+
+		// 2. Renderizar Drags Merch (Lista de drags que tienen merch)
+		dragsMerchListContainer.innerHTML = '';
+		const dragsWithMerch = (appState.drags || []).filter(d => d.merchItems && d.merchItems.length > 0);
+
+		if (dragsWithMerch.length === 0) {
+			dragsMerchListContainer.innerHTML = '<p class="text-gray-400 text-center col-span-full font-pixel">Ninguna drag tiene merch disponible aún.</p>';
+		} else {
+			dragsWithMerch.forEach(drag => {
+				// Crear tarjeta simplificada de Drag solo con botón de merch
+				const card = document.createElement('div');
+				card.className = "bg-gray-800 border border-white rounded-none p-4 flex flex-col transform transition-transform duration-300 hover:scale-[1.02]";
+
+				const coverUrl = drag.coverImageUrl || `https://placehold.co/300x400/222/aaa?text=${encodeURIComponent(drag.name || '?')}&font=vt323`;
+
+				card.innerHTML = `
+					<div class="aspect-[3/4] bg-black mb-4 border border-gray-600 overflow-hidden relative group">
+						<img src="${coverUrl}" alt="${drag.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/300x400/222/aaa?text=Error&font=vt323';">
+					</div>
+					<h3 class="text-2xl font-pixel text-white mb-2 truncate text-glow-white">${drag.name}</h3>
+					<button data-drag-id="${drag.id}" class="mt-auto w-full bg-transparent border-2 border-white text-white font-pixel text-lg py-2 px-4 hover:bg-white hover:text-black transition-colors merch-view-drag-btn">
+						VER MERCH
+					</button>
+				`;
+
+				dragsMerchListContainer.appendChild(card);
+
+				const btn = card.querySelector('.merch-view-drag-btn');
+				addTrackedListener(btn, 'click', handleShowMerch); // Reutilizamos handleShowMerch
+			});
+		}
+
+		observeRevealElements();
+	}
+
+	/**
+	 * Crea un elemento tarjeta para un artículo de merch.
+	 */
+	function createMerchCard(item, dragInfo) {
+		const card = document.createElement('div');
+		card.className = "bg-gray-800 border border-white rounded-none p-4 flex flex-col transform transition-transform duration-300 hover:scale-[1.02]";
+
+		const imageUrl = item.imageUrl || `https://placehold.co/300x300/333/ccc?text=${encodeURIComponent(item.name || 'Merch')}&font=vt323`;
+		const price = (item.price || 0).toFixed(2);
+
+		card.innerHTML = `
+			<div class="w-full h-48 bg-black flex items-center justify-center mb-4 border border-gray-600 overflow-hidden">
+				<img src="${imageUrl}" alt="${item.name || 'Artículo'}" class="w-full h-full object-contain" onerror="this.onerror=null;this.src='https://placehold.co/300x300/333/ccc?text=Error&font=vt323';">
+			</div>
+			<h4 class="text-xl font-pixel text-white mb-1 truncate">${item.name || 'Artículo'}</h4>
+			<p class="text-sm text-gray-400 mb-2 font-pixel tracking-wider">${dragInfo.name}</p>
+			<p class="text-2xl font-bold text-white mb-4">${price} €</p>
+			<button data-item-id="${item.id}" data-drag-id="${dragInfo.id}" class="mt-auto bg-white text-black font-pixel text-lg py-2 px-4 rounded-none border border-gray-400 hover:bg-gray-300 merch-buy-btn">
+				COMPRAR
+			</button>
+		`;
+
+		// Listener para comprar
+		const buyBtn = card.querySelector('.merch-buy-btn');
+		addTrackedListener(buyBtn, 'click', handleMerchBuyClick); // Reutilizamos el handler, adaptaremos la lógica allí
+
+		return card; // CORRECCIÓN: Devolver card
+	}
+
 
 	/**
 	 * Muestra el modal con la galería de merchandising de una drag.
@@ -2105,6 +2193,21 @@ window.addEventListener('DOMContentLoaded', async () => {
 	// --- Funciones Admin Merch ---
 
 	/**
+	 * Maneja el cambio de selección en el dropdown de dras (o web merch).
+	 */
+	function handleAdminMerchDragSelect(e) {
+		const val = e.target.value;
+		if (val === 'web') {
+			currentAdminMerchDragId = 'web';
+		} else if (val) {
+			currentAdminMerchDragId = parseInt(val, 10);
+		} else {
+			currentAdminMerchDragId = null;
+		}
+		renderAdminMerch();
+	}
+
+	/**
 	 * Renderiza la sección de admin de Merch (select de drag y lista de items).
 	 */
 	function renderAdminMerch() {
@@ -2129,29 +2232,49 @@ window.addEventListener('DOMContentLoaded', async () => {
 		if (previousSelectedDragId && appState.drags.some(d => d.id === parseInt(previousSelectedDragId))) {
 			adminMerchSelectDrag.value = previousSelectedDragId;
 			currentAdminMerchDragId = parseInt(previousSelectedDragId); // Actualizar estado global
-		} else {
-			// Si la drag seleccionada fue eliminada o no había selección, resetear
 			currentAdminMerchDragId = null;
 			adminMerchSelectDrag.value = ""; // Asegurar que el placeholder esté seleccionado
 		}
 
+		// NUEVO: Manejar selección 'web' si estaba seleccionada previamente
+		if (previousSelectedDragId === 'web') {
+			adminMerchSelectDrag.value = 'web';
+			currentAdminMerchDragId = 'web';
+		}
+
+		// NUEVO: Añadir opción Web Merch al principio
+		const webOption = document.createElement('option');
+		webOption.value = 'web';
+		webOption.textContent = 'RODETES OFICIAL (WEB MERCH)';
+		webOption.style.fontWeight = 'bold';
+		webOption.style.color = '#F02D7D'; // Destacar
+		adminMerchSelectDrag.insertBefore(webOption, adminMerchSelectDrag.firstChild.nextSibling); // Insertar después del placeholder
+
 		// Renderizar lista de items o mensaje según la selección
 		adminMerchListContainer.innerHTML = '';
 		if (currentAdminMerchDragId === null) {
-			adminMerchListContainer.innerHTML = '<li class="text-gray-400 text-center font-pixel">Selecciona una drag para ver/añadir merch.</li>';
+			adminMerchListContainer.innerHTML = '<li class="text-gray-400 text-center font-pixel">Selecciona una drag o Web Merch para ver/añadir items.</li>';
 			addMerchItemForm?.classList.add('hidden'); // Ocultar form
 			adminMerchSalesSummary?.classList.add('hidden'); // Ocultar resumen ventas
 		} else {
 			addMerchItemForm?.classList.remove('hidden'); // Mostrar form
 			renderAdminMerchSalesSummary(); // Mostrar/Actualizar resumen ventas
 
-			const drag = appState.drags.find(d => d.id === currentAdminMerchDragId);
-			const merchItems = drag?.merchItems || [];
+			let merchItems = [];
+
+			// --- LÓGICA DIFERENCIADA WEB vs DRAG ---
+			if (currentAdminMerchDragId === 'web') {
+				merchItems = appState.webMerch || [];
+			} else {
+				const drag = appState.drags.find(d => d.id === currentAdminMerchDragId);
+				merchItems = drag?.merchItems || [];
+			}
 
 			if (merchItems.length === 0) {
-				adminMerchListContainer.innerHTML = '<li class="text-gray-400 text-center font-pixel">Esta drag no tiene merchandising añadido.</li>';
+				adminMerchListContainer.innerHTML = '<li class="text-gray-400 text-center font-pixel">No hay artículos de merchandising añadidos.</li>';
 			} else {
 				merchItems.forEach(item => {
+
 					try {
 						const li = document.createElement('li');
 						li.className = "bg-gray-800 p-4 border border-gray-500 flex flex-wrap justify-between items-center gap-4";
@@ -2376,12 +2499,17 @@ window.addEventListener('DOMContentLoaded', async () => {
 	 * Rellena el form de merch para editar un item existente.
 	 */
 	function handleEditMerchItemClick(e) {
-		if (currentAdminMerchDragId === null || !appState || !appState.drags) return;
+		if (currentAdminMerchDragId === null || !appState) return;
 		const merchId = parseInt(e.target.dataset.merchId, 10);
 		if (isNaN(merchId)) return;
 
-		const drag = appState.drags.find(d => d.id === currentAdminMerchDragId);
-		const itemToEdit = drag?.merchItems?.find(item => item.id === merchId);
+		let itemToEdit = null;
+		if (currentAdminMerchDragId === 'web') {
+			itemToEdit = appState.webMerch?.find(item => item.id === merchId);
+		} else {
+			const drag = appState.drags.find(d => d.id === currentAdminMerchDragId);
+			itemToEdit = drag?.merchItems?.find(item => item.id === merchId);
+		}
 
 		if (!itemToEdit || !addMerchItemForm) {
 			showInfoModal("Error: Artículo no encontrado para editar.", true);
@@ -2410,11 +2538,25 @@ window.addEventListener('DOMContentLoaded', async () => {
 	 */
 	async function handleSaveMerchItem(e) {
 		e.preventDefault();
-		if (!addMerchItemForm || currentAdminMerchDragId === null || !appState || !appState.drags) return;
+		if (!addMerchItemForm || currentAdminMerchDragId === null || !appState) return;
 
-		const dragIndex = appState.drags.findIndex(d => d.id === currentAdminMerchDragId);
-		if (dragIndex === -1) {
-			showInfoModal("Error: Drag no encontrada para guardar el artículo.", true); return;
+		// Determinar dónde guardar (Web o Drag)
+		let targetArray = null;
+		let contextName = "";
+		let dragIndex = -1;
+
+		if (currentAdminMerchDragId === 'web') {
+			if (!appState.webMerch) appState.webMerch = [];
+			targetArray = appState.webMerch;
+			contextName = "Web Merch";
+		} else {
+			dragIndex = appState.drags.findIndex(d => d.id === currentAdminMerchDragId);
+			if (dragIndex === -1) {
+				showInfoModal("Error: Drag no encontrada para guardar el artículo.", true); return;
+			}
+			if (!appState.drags[dragIndex].merchItems) appState.drags[dragIndex].merchItems = [];
+			targetArray = appState.drags[dragIndex].merchItems;
+			contextName = appState.drags[dragIndex].name || "Drag";
 		}
 
 		const formData = new FormData(addMerchItemForm);
@@ -2436,24 +2578,21 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 		showLoading(true);
 		try {
-			// Asegurar que el array merchItems exista en la drag
-			if (!appState.drags[dragIndex].merchItems) {
-				appState.drags[dragIndex].merchItems = [];
-			}
-			const dragMerchItems = appState.drags[dragIndex].merchItems; // Referencia al array
+			// (Ya tenemos targetArray definido arriba)
+			const merchItems = targetArray; // Referencia al array correcto
 
 			if (itemIdToSave !== null) { // Actualizar item existente
-				const itemIndex = dragMerchItems.findIndex(item => item.id === itemIdToSave);
+				const itemIndex = merchItems.findIndex(item => item.id === itemIdToSave);
 				if (itemIndex > -1) {
-					dragMerchItems[itemIndex] = {
-						...dragMerchItems[itemIndex], // Mantener ID
+					merchItems[itemIndex] = {
+						...merchItems[itemIndex], // Mantener ID
 						name: itemName,
 						price: itemPrice,
 						imageUrl: itemImageUrl
 					};
 					await saveAppState(); // Guardar todo el appState
-					showInfoModal("¡Artículo de merch actualizado!", false);
-				} else { throw new Error("Artículo a editar no encontrado en la drag."); }
+					showInfoModal(`¡Artículo de ${contextName} actualizado!`, false);
+				} else { throw new Error("Artículo a editar no encontrado."); }
 			} else { // Añadir nuevo item
 				const newItem = {
 					id: appState.nextMerchItemId++, // Usar ID global y luego incrementar
@@ -2461,13 +2600,16 @@ window.addEventListener('DOMContentLoaded', async () => {
 					price: itemPrice,
 					imageUrl: itemImageUrl
 				};
-				dragMerchItems.push(newItem); // Añadir al array de la drag
+				merchItems.push(newItem); // Añadir al array correcto
 				await saveAppState(); // Guardar todo el appState
-				showInfoModal("¡Artículo de merch añadido!", false);
+				showInfoModal(`¡Artículo añadido a ${contextName}!`, false);
 			}
 			resetMerchItemForm(); // Limpiar formulario
 			renderAdminMerch(); // Re-renderizar la sección de merch admin
-			renderDragList(); // Re-renderizar lista pública por si cambió el contador
+
+			// Re-renderizar vistas públicas
+			renderDragList();
+			renderMerchPage(); // Re-renderizar página pública de merch
 
 		} catch (error) {
 			console.error("Error saving merch item:", error);
@@ -2485,11 +2627,18 @@ window.addEventListener('DOMContentLoaded', async () => {
 		const merchId = parseInt(e.target.dataset.merchId, 10);
 		if (isNaN(merchId)) return;
 
-		const dragIndex = appState.drags.findIndex(d => d.id === currentAdminMerchDragId);
-		if (dragIndex === -1) return; // Drag no encontrada
+		let targetArray = null;
+		if (currentAdminMerchDragId === 'web') {
+			targetArray = appState.webMerch;
+		} else {
+			const dragIndex = appState.drags.findIndex(d => d.id === currentAdminMerchDragId);
+			if (dragIndex === -1) return;
+			targetArray = appState.drags[dragIndex].merchItems;
+		}
 
-		const dragMerchItems = appState.drags[dragIndex].merchItems || [];
-		const itemIndex = dragMerchItems.findIndex(item => item.id === merchId);
+		if (!targetArray) return;
+
+		const itemIndex = targetArray.findIndex(item => item.id === merchId);
 		if (itemIndex === -1) {
 			showInfoModal("Error: Artículo no encontrado para eliminar.", true); return; // Item no encontrado
 		}
@@ -2501,7 +2650,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 		showLoading(true);
 		try {
 			// Eliminar el item del array
-			dragMerchItems.splice(itemIndex, 1);
+			targetArray.splice(itemIndex, 1);
 
 			// Si se estaba editando este item, resetear el form
 			if (editingMerchItemId === merchId) {
@@ -3900,7 +4049,9 @@ window.addEventListener('DOMContentLoaded', async () => {
 				events: (appState.events || []).map(event => {
 					const { purchasedTickets, ...eventToSave } = event; return eventToSave;
 				}),
-				drags: appState.drags || [], nextEventId: appState.nextEventId || 1,
+				drags: appState.drags || [],
+				webMerch: appState.webMerch || [], // NUEVO: Backup de merch web
+				nextEventId: appState.nextEventId || 1,
 				nextDragId: appState.nextDragId || 1, nextMerchItemId: appState.nextMerchItemId || 1,
 				scannedTickets: appState.scannedTickets || {}
 			};
@@ -4038,6 +4189,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 					description: "", coverImageUrl: "", instagramHandle: "",
 					cardColor: "#FFFFFF", galleryImages: [], merchItems: [], ...drag
 				})),
+				webMerch: restoredState.webMerch || [], // Restaurar merch web
 				allowedDomains: restoredState.allowedDomains || [],
 				scannedTickets: restoredState.scannedTickets || {},
 				nextEventId: restoredState.nextEventId || 1,

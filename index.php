@@ -240,6 +240,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
                     <a href="#" data-nav="home" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors text-glow-white">INICIO</a>
                     <a href="#" data-nav="events" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors">EVENTOS</a>
                     <a href="#" data-nav="gallery" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors">GALERÍA</a>
+                    <a href="#" data-nav="merch" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors">MERCH</a>
                     <a href="#" data-nav="drags" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors">DRAGS</a>
                 </div>
                 <div class="flex-shrink-0 ml-4 sm:ml-0">
@@ -256,6 +257,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
                 <a href="#" data-nav="home" class="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md">INICIO</a>
                 <a href="#" data-nav="events" class="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md">EVENTOS</a>
                 <a href="#" data-nav="gallery" class="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md">GALERÍA</a>
+                <a href="#" data-nav="merch" class="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md">MERCH</a>
                 <a href="#" data-nav="drags" class="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md">DRAGS</a>
                 <a href="#" data-nav="admin" class="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md <?php echo $isLoggedIn ? '' : 'hidden'; ?>">ADMIN</a>
             </div>
@@ -269,6 +271,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
                 <a href="#" data-nav="home" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors text-glow-white">INICIO</a>
                 <a href="#" data-nav="events" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors">EVENTOS</a>
                 <a href="#" data-nav="gallery" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors">GALERÍA</a>
+                <a href="#" data-nav="merch" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors">MERCH</a>
                 <a href="#" data-nav="drags" class="font-pixel uppercase text-lg text-gray-500 hover:text-white transition-colors">DRAGS</a>
             </div>
         </nav>
@@ -355,6 +358,27 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
                 </div>
                 <div id="drag-gallery-view-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
                      <p class="text-gray-400 text-center col-span-full font-pixel">Cargando imágenes...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==== PÁGINA: MERCH (NUEVA) ==== -->
+        <div id="page-merch" data-page="merch" class="hidden">
+            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="MERCHANDISING">MERCHANDISING</h2>
+            
+            <!-- Sección: Web Merch -->
+            <div id="web-merch-section" class="mb-12">
+                <h3 class="text-3xl font-pixel text-white mb-6 border-b border-gray-700 pb-2">RODETES OFICIAL</h3>
+                <div id="web-merch-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                     <p class="text-gray-400 text-center col-span-full font-pixel">Cargando merch oficial...</p>
+                </div>
+            </div>
+
+            <!-- Sección: Drags Merch -->
+            <div id="drags-merch-section">
+                <h3 class="text-3xl font-pixel text-white mb-6 border-b border-gray-700 pb-2">MERCH DRAGS</h3>
+                <div id="drags-merch-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                     <p class="text-gray-400 text-center col-span-full font-pixel">Cargando merch de drags...</p>
                 </div>
             </div>
         </div>
