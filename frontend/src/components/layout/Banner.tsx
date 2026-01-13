@@ -52,37 +52,59 @@ export const Banner: React.FC = () => {
                 borderColor: neonColor
             }}
         >
-            <div className="absolute whitespace-nowrap animate-marquee flex items-center h-full">
-                <span
-                    className="font-pixel text-lg px-4"
-                    style={{
-                        color: neonColor,
-                        textShadow: `0 0 5px ${neonColor}, 0 0 10px ${neonColor}`
-                    }}
-                >
-                    {displayText}
-                </span>
-                {/* Duplicate for seamless loop if needed, though pure CSS marquee usually handles one long line or duplicates. 
-                     Let's add a second span for better spacing if the text is short */}
-                <span
-                    className="font-pixel text-lg px-4"
-                    style={{
-                        color: neonColor,
-                        textShadow: `0 0 5px ${neonColor}, 0 0 10px ${neonColor}`
-                    }}
-                >
-                    {displayText}
-                </span>
-                <span
-                    className="font-pixel text-lg px-4"
-                    style={{
-                        color: neonColor,
-                        textShadow: `0 0 5px ${neonColor}, 0 0 10px ${neonColor}`
-                    }}
-                >
-                    {displayText}
-                </span>
-            </div>
+            <span
+                className="font-pixel text-lg px-4"
+                style={{
+                    color: neonColor,
+                    textShadow: `
+                            0 0 5px #fff,
+                            0 0 10px #fff,
+                            0 0 15px ${neonColor},
+                            0 0 20px ${neonColor},
+                            0 0 25px ${neonColor},
+                            0 0 30px ${neonColor},
+                            0 0 35px ${neonColor}
+                        `
+                }}
+            >
+                {displayText}
+            </span>
+            {/* Duplicate for seamless loop if needed */}
+            <span
+                className="font-pixel text-lg px-4"
+                style={{
+                    color: neonColor,
+                    textShadow: `
+                            0 0 5px #fff,
+                            0 0 10px #fff,
+                            0 0 15px ${neonColor},
+                            0 0 20px ${neonColor},
+                            0 0 25px ${neonColor},
+                            0 0 30px ${neonColor},
+                            0 0 35px ${neonColor}
+                        `
+                }}
+            >
+                {displayText}
+            </span>
+            <span
+                className="font-pixel text-lg px-4"
+                style={{
+                    color: neonColor,
+                    textShadow: `
+                            0 0 5px #fff,
+                            0 0 10px #fff,
+                            0 0 15px ${neonColor},
+                            0 0 20px ${neonColor},
+                            0 0 25px ${neonColor},
+                            0 0 30px ${neonColor},
+                            0 0 35px ${neonColor}
+                        `
+                }}
+            >
+                {displayText}
+            </span>
         </div>
+        </div >
     );
 };
