@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+
+# Build
+dist/
+build/
+
+# Environnment
+.env
+.env.local
+
+# Docker
+postgres_data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backend specific
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/legacy_data/*.json
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
