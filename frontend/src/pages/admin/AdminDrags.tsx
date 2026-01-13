@@ -155,15 +155,16 @@ const AdminDrags = () => {
                                 />
                             </div>
                         </div>
-                        <div>
-                            <label className="block text-gray-400 mb-1">URL Foto Portada</label>
-                            <input
-                                type="text"
-                                value={editingDrag?.cover_image_url || ''}
-                                onChange={e => handleChange('cover_image_url', e.target.value)}
-                                className="w-full bg-black border border-gray-700 text-white p-2"
-                            />
-                        </div>
+                        <FileUpload
+                            label="Imagen del Drag"
+                            currentUrl={editingDrag?.cover_image_url}
+                            onUpload={async (file) => {
+                                const data = new FormData();
+                                data.append('image', file);
+                                const res = await api.post('/drags/upload-image', data);
+                                handleChange('cover_image_url', res.data.url);
+                            }}
+                        />
                     </div>
 
                     <Button type="submit" className="w-full bg-rodetes-pink border-none text-white hover:bg-pink-600 mt-6">

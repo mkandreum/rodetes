@@ -5,8 +5,10 @@ import { useSales } from '../../hooks/useSales';
 import Loader from '../../components/common/Loader';
 import Button from '../../components/common/Button';
 import Modal from '../../components/common/Modal';
+import FileUpload from '../../components/common/FileUpload';
 import { Edit, Trash2, Plus, List } from 'lucide-react';
 import { MerchItem } from '../../types';
+import api from '../../api/client';
 
 const AdminMerch = () => {
     // We fetch without filters to get ALL merch, then filter client-side for the view
@@ -219,15 +221,16 @@ const AdminMerch = () => {
                                 required
                             />
                         </div>
-                        <div>
-                            <label className="block text-gray-400 mb-1">URL Imagen</label>
-                            <input
-                                type="text"
-                                value={editingItem?.image_url || ''}
-                                onChange={e => handleChange('image_url', e.target.value)}
-                                className="w-full bg-black border border-gray-700 text-white p-2"
-                            />
-                        </div>
+                        <FileUpload
+                            label="Imagen del Artículo"
+                            currentUrl={editingItem?.image_url}
+                            onUpload={async (file) => {
+                                const data = new FormData();
+                                data.append('image', file);
+                                const res = await api.post('/merch/upload-image', data);
+                                handleChange('image_url', res.data.url);
+                            }}
+                        />
                     </div>
 
                     <Button type="submit" className="w-full bg-rodetes-pink border-none text-white hover:bg-pink-600 mt-6">
@@ -240,7 +243,7 @@ const AdminMerch = () => {
             <Modal
                 isOpen={isSalesModalOpen}
                 onClose={() => setIsSalesModalOpen(false)}
-                title={`Ventas: ${selectedContext === 'web' ? 'RODETES WEB' : drags?.find(d => d.id === parseInt(selectedContext))?.name}`}
+                title={`Ventas: ${selectedContext === 'web' ? 'RODETES WEB' : drags?.find(d => d.id === parseInt(selectedContext))?.name} `}
             >
                 <div className="overflow-hidden">
                     {/* Desktop Table */}
