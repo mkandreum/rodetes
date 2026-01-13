@@ -88,7 +88,7 @@ const Layout = () => {
                 {/* Mobile Menu Overlay (Translucent Full Screen) */}
                 {isMobileOpen && (
                     <div
-                        className="md:hidden fixed inset-x-0 bottom-0 bg-black/95 backdrop-blur-md z-40 flex flex-col items-center justify-start pt-12 gap-6"
+                        className="md:hidden fixed inset-x-0 bottom-0 bg-black/90 backdrop-blur-md z-40 flex flex-col items-center justify-start pt-12 gap-6"
                         style={{
                             top: `${bannerHeight + headerHeight}px`
                         }}
