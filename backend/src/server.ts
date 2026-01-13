@@ -49,6 +49,32 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
 });
 
+// Debug Endpoint to check DB connection
+import pool from './models/db';
+app.get('/api/debug/db', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT NOW() as now, current_database() as db, current_user as user');
+        client.release();
+        res.json({
+            status: 'success',
+            connection: 'established',
+            info: result.rows[0],
+            env: {
+                DB_URL: process.env.DATABASE_URL ? 'Defined' : 'Undefined'
+            }
+        });
+    } catch (error: any) {
+        console.error('DB Connection Failed:', error);
+        res.status(500).json({
+            status: 'error',
+            message: error.message,
+            stack: error.stack,
+            detail: error
+        });
+    }
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
