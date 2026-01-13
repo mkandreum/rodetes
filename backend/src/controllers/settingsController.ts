@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import pool from '../models/db';
+import { getFileUrl } from '../middleware/uploadMiddleware';
 
 // Get all settings
 export const getSettings = async (req: Request, res: Response) => {
@@ -82,3 +83,34 @@ export const updateSettings = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error updating settings' });
     }
 }
+
+// Upload logo file
+export const uploadLogo = async (req: Request, res: Response) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+
+        const { logoType } = req.body; // 'app' or 'ticket'
+        const fileUrl = getFileUrl(req.file.filename, 'logos');
+
+        // Update the corresponding setting
+        const key = logoType === 'ticket' ? 'ticketLogoUrl' : 'appLogoUrl';
+
+        await pool.query(
+            `INSERT INTO app_config (key, value) 
+             VALUES ($1, $2) 
+             ON CONFLICT (key) 
+             DO UPDATE SET value = $2, updated_at = CURRENT_TIMESTAMP`,
+            [key, fileUrl]
+        );
+
+        res.json({
+            message: 'Logo uploaded successfully',
+            url: fileUrl
+        });
+    } catch (error) {
+        console.error('Error uploading logo:', error);
+        res.status(500).json({ message: 'Error uploading logo' });
+    }
+};
