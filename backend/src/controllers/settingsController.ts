@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import pool from '../db';
+import pool from '../models/db';
 
 // Get all settings
 export const getSettings = async (req: Request, res: Response) => {

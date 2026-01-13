@@ -1,3 +1,4 @@
+import { Router } from 'express';
 import { getAllTickets, createTicket, scanTicket, getGiveawayWinner } from '../controllers/ticketsController';
 import { authenticate } from '../middleware/auth';
 

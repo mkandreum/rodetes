@@ -7,6 +7,8 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
 
+export default pool;
+
 // Event listener for errors on the backend
 pool.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err);

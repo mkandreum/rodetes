@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import pool from '../db';
-import { generateQRCode } from '../utils/qrGenerator'; // Assuming we might need this later, but not for text drawing
+import pool from '../models/db';
+import { generateQRCode } from '../utils/qrGenerator';
 
 // ... existing controller imports ...
 
