@@ -9,6 +9,7 @@ export interface Event {
     ticket_availability: number;
     poster_url: string;
     is_visible: boolean;
+    galleryImages?: string[];
     created_at?: string;
 }
 

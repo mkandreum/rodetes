@@ -48,18 +48,29 @@ export const Banner: React.FC = () => {
 
     return (
         <div
-            className="w-full fixed top-0 left-0 overflow-hidden z-[60] shadow-md border-b-2 border-black"
+            className="w-full fixed top-0 left-0 overflow-hidden z-[60]"
             style={{
-                backgroundColor: '#FACC15', // Yellow-400
+                backgroundColor: '#000',
+                borderBottom: '2px solid #F02D7D',
+                boxShadow: '0 0 10px #F02D7D, 0 0 20px #F02D7D',
                 height: '40px',
             }}
         >
             <div className="w-full h-full flex items-center overflow-hidden whitespace-nowrap">
                 <span
-                    className="font-pixel text-sm md:text-lg font-bold uppercase animate-marquee"
+                    className="font-pixel text-sm md:text-lg animate-marquee"
                     style={{
-                        color: 'black',
-                        textShadow: 'none'
+                        fontFamily: "'VT323', monospace",
+                        color: '#fff',
+                        textShadow: `
+                            0 0 5px #fff,
+                            0 0 10px #fff,
+                            0 0 15px #F02D7D,
+                            0 0 20px #F02D7D,
+                            0 0 25px #F02D7D,
+                            0 0 30px #F02D7D,
+                            0 0 35px #F02D7D
+                        `
                     }}
                 >
                     {displayText} • {displayText} • {displayText} • {displayText} • {displayText}
