@@ -19,11 +19,11 @@ services:
       timeout: 5s
       retries: 5
 
-  rodetes_backend:
+  rodetes_app:
     build:
-      context: ./backend
+      context: .
       dockerfile: Dockerfile
-    container_name: rodetes_backend
+    container_name: rodetes_app
     environment:
       DATABASE_URL: postgresql://rodetes_user:rodetes_password@rodetes_postgres:5432/rodetes_db
       JWT_SECRET: dev_secret_key_12345
@@ -36,16 +36,6 @@ services:
     depends_on:
       rodetes_postgres:
         condition: service_healthy
-
-  rodetes_frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: rodetes_frontend
-    ports:
-      - "8080:80"
-    depends_on:
-      - rodetes_backend
 
 volumes:
   postgres_data:

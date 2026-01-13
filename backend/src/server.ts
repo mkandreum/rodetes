@@ -26,7 +26,11 @@ app.use(express.urlencoded({ extended: true }));
 // Static files (uploads)
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Routes
+// Serve Frontend Static Files
+const publicPath = path.join(__dirname, '../public');
+app.use(express.static(publicPath));
+
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/drags', dragRoutes);
@@ -38,6 +42,11 @@ app.use('/api/settings', settingsRoutes);
 
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date() });
+});
+
+// Handle React Routing, return all requests to React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
 });
 
 // Start server
