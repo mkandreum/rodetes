@@ -31,22 +31,23 @@ const Events = () => {
     return (
         <div className="space-y-12">
             <div className="text-center">
-                <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 text-glow-white">PRÓXIMOS EVENTOS</h2>
-                <p className="text-gray-400 max-w-2xl mx-auto">
+                <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-4 text-glow-white">PRÓXIMOS EVENTOS</h2>
+                <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto px-4">
                     No te pierdas las mejores fiestas de Rodetes. Entradas limitadas.
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
                 {events?.map((event) => (
                     <Card
                         key={event.id}
                         title={event.title}
                         subtitle={`${new Date(event.date).toLocaleDateString()} - ${event.time}`}
                         image={event.poster_url}
+                        imageProps={{ loading: 'lazy' }}
                     >
                         <div className="space-y-4">
-                            <p className="text-gray-300">{event.description}</p>
+                            <p className="text-sm sm:text-base text-gray-300">{event.description}</p>
                             <div className="flex justify-between items-center text-sm">
                                 <span className="text-rodetes-blue">{event.location}</span>
                                 <span className="text-rodetes-pink font-bold text-xl">{event.price} €</span>
@@ -56,7 +57,7 @@ const Events = () => {
                         <div className="mt-6 pt-4 border-t border-gray-800">
                             {event.ticket_availability > 0 ? (
                                 <Button
-                                    className="w-full bg-rodetes-pink border-rodetes-pink text-white hover:bg-pink-600"
+                                    className="w-full bg-rodetes-pink border-rodetes-pink text-white hover:bg-pink-600 touch-feedback"
                                     onClick={() => handleBuyClick(event)}
                                 >
                                     COMPRAR ENTRADAS

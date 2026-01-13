@@ -10,12 +10,16 @@ export const Banner: React.FC = () => {
     const nextEvent = useMemo(() => {
         if (!events || events.length === 0) return null;
 
-        // Include events from today onwards
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        // Simplify date comparison: Compare YYYY-MM-DD strings to avoid timezone issues
+        const todayStr = new Date().toISOString().split('T')[0];
 
         const filtered = events
-            .filter(e => e && e.is_visible && e.date && new Date(e.date) >= today)
+            .filter(e => {
+                if (!e || !e.is_visible || !e.date) return false;
+                // Ensure event date is >= today (string comparison works for YYYY-MM-DD)
+                const eventDateStr = new Date(e.date).toISOString().split('T')[0];
+                return eventDateStr >= todayStr;
+            })
             .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
         return filtered[0] || null;
@@ -53,7 +57,7 @@ export const Banner: React.FC = () => {
             }}
         >
             <span
-                className="font-pixel text-lg px-4"
+                className="font-pixel text-sm md:text-lg px-4 gpu-accelerate"
                 style={{
                     color: neonColor,
                     textShadow: `
@@ -69,9 +73,9 @@ export const Banner: React.FC = () => {
             >
                 {displayText}
             </span>
-            {/* Duplicate for seamless loop if needed */}
+            {/* Duplicate for seamless loop */}
             <span
-                className="font-pixel text-lg px-4"
+                className="font-pixel text-sm md:text-lg px-4 gpu-accelerate"
                 style={{
                     color: neonColor,
                     textShadow: `
@@ -88,7 +92,7 @@ export const Banner: React.FC = () => {
                 {displayText}
             </span>
             <span
-                className="font-pixel text-lg px-4"
+                className="font-pixel text-sm md:text-lg px-4 gpu-accelerate"
                 style={{
                     color: neonColor,
                     textShadow: `
@@ -97,7 +101,7 @@ export const Banner: React.FC = () => {
                             0 0 15px ${neonColor},
                             0 0 20px ${neonColor},
                             0 0 25px ${neonColor},
-                            0 0 30px ${neonColor},
+                           0 0 30px ${neonColor},
                             0 0 35px ${neonColor}
                         `
                 }}

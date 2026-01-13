@@ -27,8 +27,8 @@ const Merch = () => {
     return (
         <div className="space-y-16">
             <div className="text-center">
-                <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 text-glow-white">TIENDA OFICIAL</h2>
-                <p className="text-gray-400 max-w-2xl mx-auto">
+                <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-4 text-glow-white">TIENDA OFICIAL</h2>
+                <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto px-4">
                     Llévate un recuerdo de Rodetes o apoya a tus drags favoritas.
                 </p>
             </div>
@@ -39,16 +39,17 @@ const Merch = () => {
                     <h3 className="text-3xl font-pixel text-rodetes-pink mb-8 border-b border-gray-800 pb-2">
                         RODETES COLLECTION
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                         {webMerch.map(item => (
                             <Card
                                 key={item.id}
                                 title={item.name}
                                 subtitle={`${item.price} €`}
                                 image={item.image_url}
+                                imageProps={{ loading: 'lazy' }}
                             >
                                 <Button
-                                    className="w-full mt-4 bg-white text-black hover:bg-rodetes-pink hover:text-white border-none"
+                                    className="w-full mt-4 bg-white text-black hover:bg-rodetes-pink hover:text-white border-none touch-feedback text-sm sm:text-base"
                                     onClick={() => setSelectedItem(item)}
                                 >
                                     COMPRAR
@@ -68,18 +69,19 @@ const Merch = () => {
                     >
                         {drag.name.toUpperCase()} COLLECTION
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                         {drag.items.map(item => (
                             <Card
                                 key={item.id}
                                 title={item.name}
                                 subtitle={`${item.price} €`}
                                 image={item.image_url}
+                                imageProps={{ loading: 'lazy' }}
                                 color={drag.card_color}
                             >
                                 <div className="mt-4">
                                     <Button
-                                        className="w-full text-black hover:text-white border-none"
+                                        className="w-full text-black hover:text-white border-none touch-feedback text-sm sm:text-base"
                                         style={{ backgroundColor: drag.card_color || '#fff' }}
                                         onClick={() => setSelectedItem(item)}
                                     >
@@ -99,7 +101,7 @@ const Merch = () => {
                 title={selectedItem?.name}
             >
                 <div className="text-center space-y-6">
-                    <img src={selectedItem?.image_url} alt={selectedItem?.name} className="w-full h-64 object-cover border border-gray-600" />
+                    <img src={selectedItem?.image_url} alt={selectedItem?.name} loading="lazy" className="w-full h-48 sm:h-64 object-cover border border-gray-600" />
 
                     <div>
                         <p className="text-gray-300">Estás a punto de comprar:</p>
@@ -112,7 +114,7 @@ const Merch = () => {
                         <br />Esta ventana es una demostración del flujo de compra.
                     </p>
 
-                    <Button className="w-full bg-green-600 hover:bg-green-500 text-white border-none">
+                    <Button className="w-full bg-green-600 hover:bg-green-500 text-white border-none touch-feedback">
                         CONTINUAR AL PAGO
                     </Button>
                 </div>

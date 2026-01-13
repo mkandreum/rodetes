@@ -22,6 +22,30 @@
   }
 }
 
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
 .text-glow-white {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
 }
@@ -62,9 +86,6 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
-text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8),
-0 0 2px rgba(255, 255, 255, 0.5);
-}
 
 /* --- LEGACY COMPONENT STYLES --- */
 
@@ -73,11 +94,18 @@ text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8),
   @apply bg-black text-rodetes-pink border-2 border-rodetes-pink font-pixel uppercase tracking-wider hover:bg-rodetes-pink hover:text-white transition-all duration-300;
   box-shadow: 0 0 10px #F02D7D, inset 0 0 5px #F02D7D;
   text-shadow: 0 0 5px #F02D7D;
+  /* GPU acceleration for better performance */
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
 }
 
 .neon-btn:hover {
   box-shadow: 0 0 20px #F02D7D, inset 0 0 10px #F02D7D;
   text-shadow: none;
+}
+
+.neon-btn:active {
+  transform: scale(0.98) translateZ(0);
 }
 
 /* Legacy: Admin Gallery Grid */
@@ -91,17 +119,121 @@ text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8),
   @apply relative aspect-square border border-gray-600 bg-black overflow-hidden;
 }
 
+/* Animation Classes */
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
 /* Global Overrides for "Identical" feel */
 @layer base {
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* iOS Safe Areas */
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
 
   input,
   textarea,
   select {
     @apply rounded-none font-pixel border-white bg-gray-900 text-white focus:ring-1 focus:ring-rodetes-pink focus:border-rodetes-pink placeholder-gray-500 !important;
+    /* Minimum touch target size for mobile */
+    min-height: 44px;
   }
 
   /* Buttons are always square in legacy */
   button {
     @apply rounded-none !important;
+    /* Minimum touch target size for mobile */
+    min-height: 44px;
+  }
+
+  /* Remove tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Better touch scrolling on iOS */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Mobile-First Utilities */
+@layer utilities {
+
+  /* Touch Target Utilities */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+
+  .touch-target-lg {
+    @apply min-h-[48px] min-w-[48px] flex items-center justify-center;
+  }
+
+  /* Touch Feedback */
+  .touch-feedback {
+    @apply active:scale-95 active:opacity-80 transition-transform duration-150;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Safe area utilities */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Improved text truncation */
+  .truncate-2-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .truncate-3-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* GPU-accelerated transforms */
+  .gpu-accelerate {
+    transform: translateZ(0);
+    will-change: transform;
   }
 }
