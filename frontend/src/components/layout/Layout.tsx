@@ -85,22 +85,34 @@ const Layout = () => {
                     <Link to="/drags" className={`whitespace-nowrap ${location.pathname === '/drags' ? 'text-rodetes-pink' : 'text-gray-300'}`}>DRAGS</Link>
                 </div>
 
-                {/* Mobile Menu Dropdown (Matches Legacy Style) */}
+                {/* Mobile Menu Overlay (Translucent Full Screen) */}
                 {isMobileOpen && (
                     <div
-                        className="md:hidden absolute right-4 z-50 bg-black/95 border-2 border-white w-64 shadow-lg shadow-white/30 rounded-none flex flex-col py-2"
+                        className="md:hidden fixed inset-x-0 bottom-0 bg-black/95 backdrop-blur-md z-40 flex flex-col items-center justify-start pt-12 gap-6"
                         style={{
-                            top: '80px' // Positioned just below the main header row
+                            top: `${bannerHeight + headerHeight}px`
                         }}
                     >
-                        <Link to="/" className="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-4 py-2" onClick={() => setIsMobileOpen(false)}>INICIO</Link>
-                        <Link to="/events" className="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-4 py-2" onClick={() => setIsMobileOpen(false)}>EVENTOS</Link>
-                        <Link to="/gallery" className="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-4 py-2" onClick={() => setIsMobileOpen(false)}>GALERÍA</Link>
-                        <Link to="/merch" className="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-4 py-2" onClick={() => setIsMobileOpen(false)}>MERCH</Link>
-                        <Link to="/drags" className="font-pixel text-lg text-gray-300 hover:bg-gray-700 hover:text-white block px-4 py-2" onClick={() => setIsMobileOpen(false)}>DRAGS</Link>
+                        <Link to="/" className={mobileNavLinkClass('/')} onClick={() => setIsMobileOpen(false)}>INICIO</Link>
+                        <Link to="/events" className={mobileNavLinkClass('/events')} onClick={() => setIsMobileOpen(false)}>EVENTOS</Link>
+                        <Link to="/drags" className={mobileNavLinkClass('/drags')} onClick={() => setIsMobileOpen(false)}>DRAGS</Link>
+                        <Link to="/merch" className={mobileNavLinkClass('/merch')} onClick={() => setIsMobileOpen(false)}>MERCH</Link>
+                        <Link to="/gallery" className={mobileNavLinkClass('/gallery')} onClick={() => setIsMobileOpen(false)}>GALERÍA</Link>
 
-                        {isAuthenticated && (
-                            <Link to="/admin" className="font-pixel text-lg text-rodetes-blue hover:bg-gray-700 hover:text-white block px-4 py-2" onClick={() => setIsMobileOpen(false)}>ADMIN</Link>
+                        <div className="w-16 h-[1px] bg-gray-800 my-4"></div>
+
+                        {isAuthenticated ? (
+                            <>
+                                <Link to="/admin" className="text-xl text-rodetes-blue" onClick={() => setIsMobileOpen(false)}>ADMIN PANEL</Link>
+                                <button
+                                    onClick={() => { logout(); setIsMobileOpen(false); }}
+                                    className="text-xl text-red-500 font-pixel mt-4"
+                                >
+                                    LOGOUT
+                                </button>
+                            </>
+                        ) : (
+                            <Link to="/login" className="text-xl text-gray-400" onClick={() => setIsMobileOpen(false)}>LOGIN</Link>
                         )}
                     </div>
                 )}
