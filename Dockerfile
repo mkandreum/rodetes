@@ -1,33 +1,47 @@
-# Multi-stage Dockerfile for unified Rodetes App
-# Stage 1: Build Frontend
-FROM node:20-alpine AS frontend-builder
-WORKDIR /app/frontend
-COPY frontend/package*.json ./
+# Stage 1: Base (Install dependencies)
+FROM node:20-alpine AS base
+WORKDIR /app
+COPY package*.json ./
+COPY packages ./packages
+COPY backend/package*.json ./backend/
+COPY frontend/package*.json ./frontend/
 RUN npm ci
-COPY frontend ./
-RUN npm run build
 
-# Stage 2: Build Backend
-FROM node:20-alpine AS backend-builder
-WORKDIR /app/backend
-COPY backend/package*.json ./
-RUN npm ci
-COPY backend/tsconfig.json ./
-COPY backend/src ./src
-RUN npm run build
-# Copy schema.sql to dist
-RUN mkdir -p dist/db && cp src/db/schema.sql dist/db/
+# Stage 2: Build Frontend
+FROM base AS frontend-builder
+WORKDIR /app
+COPY frontend ./frontend
+# Use the workspace script
+RUN npm run build -w frontend
 
-# Stage 3: Final Production Image
+# Stage 3: Build Backend
+FROM base AS backend-builder
+WORKDIR /app
+COPY backend ./backend
+# Use the workspace script
+RUN npm run build -w backend
+# Copy schema manually as it might not be part of tsc build
+RUN mkdir -p backend/dist/db && cp backend/src/db/schema.sql backend/dist/db/
+
+# Stage 4: Final Production Image
 FROM node:20-alpine
 WORKDIR /app
-COPY backend/package*.json ./
-RUN npm ci --only=production
 
-# Copy backend
+# Copy workspace definitions needed for production install
+COPY package*.json ./
+COPY packages ./packages
+COPY backend/package*.json ./backend/
+
+# Install ONLY production dependencies for backend and shared types
+# validating that shared types are available for the backend runtime
+RUN npm ci --omit=dev --workspace=backend --workspace=packages/shared
+
+# Copy built backend artifacts
 COPY --from=backend-builder /app/backend/dist ./dist
-# Copy frontend static files to backend public dir
+
+# Copy built frontend static files to public directory
 COPY --from=frontend-builder /app/frontend/dist ./public
 
 EXPOSE 3000
+# Node runs from /app, so path is dist/server.js
 CMD ["node", "dist/server.js"]
