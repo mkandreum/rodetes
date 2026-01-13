@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { query } from '../models/db';
+import { getFileUrl } from '../middleware/uploadMiddleware';
 
 // Get all drags (Public)
 // Get all drags (Public)
@@ -109,5 +110,20 @@ export const deleteDrag = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error deleting drag:', error);
         res.status(500).json({ message: 'Error al eliminar drag' });
+    }
+};
+
+// Upload drag image
+export const uploadImage = async (req: Request, res: Response) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+
+        const fileUrl = getFileUrl(req.file.filename, 'drags');
+        res.json({ url: fileUrl });
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        res.status(500).json({ message: 'Error uploading image' });
     }
 };

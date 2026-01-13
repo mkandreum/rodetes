@@ -4,9 +4,11 @@ import {
     getDragById,
     createDrag,
     updateDrag,
-    deleteDrag
+    deleteDrag,
+    uploadImage
 } from '../controllers/dragsController';
 import { authenticate } from '../middleware/auth';
+import { upload } from '../middleware/uploadMiddleware';
 
 const router = Router();
 
@@ -18,5 +20,11 @@ router.get('/:id', getDragById);
 router.post('/', authenticate, createDrag);
 router.put('/:id', authenticate, updateDrag);
 router.delete('/:id', authenticate, deleteDrag);
+
+// Upload image
+router.post('/upload-image', authenticate, (req, res, next) => {
+    req.body.uploadType = 'drags';
+    next();
+}, upload.single('image'), uploadImage);
 
 export default router;

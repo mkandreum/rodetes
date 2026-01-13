@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { query } from '../models/db';
+import { getFileUrl } from '../middleware/uploadMiddleware';
 
 // List all visible events (Public)
 export const getPublicEvents = async (req: Request, res: Response) => {
@@ -109,5 +110,20 @@ export const deleteEvent = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error deleting event:', error);
         res.status(500).json({ message: 'Error al eliminar evento' });
+    }
+};
+
+// Upload event poster
+export const uploadPoster = async (req: Request, res: Response) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+
+        const fileUrl = getFileUrl(req.file.filename, 'events');
+        res.json({ url: fileUrl });
+    } catch (error) {
+        console.error('Error uploading poster:', error);
+        res.status(500).json({ message: 'Error uploading poster' });
     }
 };

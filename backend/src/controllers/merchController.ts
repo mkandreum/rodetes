@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { query } from '../models/db';
+import { getFileUrl } from '../middleware/uploadMiddleware';
 
 // Get all merch items (Public)
 // Can filter by ?type=web or ?dragId=123
@@ -105,5 +106,20 @@ export const deleteMerchItem = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error deleting merch item:', error);
         res.status(500).json({ message: 'Error al eliminar artículo' });
+    }
+};
+
+// Upload merch image
+export const uploadImage = async (req: Request, res: Response) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+
+        const fileUrl = getFileUrl(req.file.filename, 'merch');
+        res.json({ url: fileUrl });
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        res.status(500).json({ message: 'Error uploading image' });
     }
 };
