@@ -32,7 +32,7 @@ services:
       - ./backend/uploads:/app/uploads
       - ./backend/legacy_data:/app/legacy_data
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       rodetes_postgres:
         condition: service_healthy
@@ -43,7 +43,7 @@ services:
       dockerfile: Dockerfile
     container_name: rodetes_frontend
     ports:
-      - "80:80"
+      - "8080:80"
     depends_on:
       - rodetes_backend
 
