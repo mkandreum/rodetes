@@ -318,7 +318,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
 
         <!-- ==== PÁGINA: EVENTOS ==== -->
         <div id="page-events" data-page="events" class="hidden">
-            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="EVENTOS">EVENTOS</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="EVENTOS">EVENTOS</h2>
             <div id="event-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                  <p class="text-gray-400 text-center col-span-full font-pixel">Cargando eventos...</p>
             </div>
@@ -326,7 +326,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
 
         <!-- ==== PÁGINA: GALERÍA ==== -->
         <div id="page-gallery" data-page="gallery" class="hidden">
-            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="GALERÍAS">GALERÍAS DE EVENTOS</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="GALERÍAS">GALERÍAS DE EVENTOS</h2>
             <!-- Lista de eventos con galería -->
             <div id="gallery-event-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                  <p class="text-gray-400 text-center col-span-full font-pixel">Cargando galerías...</p>
@@ -345,7 +345,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
 
         <!-- ==== PÁGINA: DRAGS ==== -->
         <div id="page-drags" data-page="drags" class="hidden">
-            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="DRAGS">DRAGS</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="DRAGS">DRAGS</h2>
             <!-- Lista de Drags -->
             <div id="drag-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                  <p class="text-gray-400 text-center col-span-full font-pixel">Cargando drags...</p>
@@ -364,7 +364,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
 
         <!-- ==== PÁGINA: MERCH (NUEVA) ==== -->
         <div id="page-merch" data-page="merch" class="hidden">
-            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="MERCHANDISING">MERCHANDISING</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="MERCHANDISING">MERCHANDISING</h2>
             
             <!-- Sección: Web Merch -->
             <div id="web-merch-section" class="mb-12">
@@ -385,7 +385,7 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
 
         <!-- ==== PÁGINA: ADMIN ==== -->
         <div id="page-admin" data-page="admin" class="hidden">
-            <h2 class="text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="ADMIN">PANEL DE ADMINISTRACIÓN</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-pixel text-white mb-8 text-center text-glow-white glitch-hover" data-text="ADMIN">PANEL DE ADMINISTRACIÓN</h2>
             <!-- Formulario de Login -->
             <form id="login-form" class="max-w-md mx-auto bg-gray-900 p-8 border border-white <?php echo $isLoggedIn ? 'hidden' : ''; ?>">
                 <h3 class="text-3xl font-pixel text-center mb-6 text-white text-glow-white">INICIAR SESIÓN</h3>
