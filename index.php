@@ -593,59 +593,122 @@ $adminEmail = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : '';
                     </div>
 
                     <!-- Admin Merch -->
+                    <!-- Admin Merch -->
                     <div id="admin-page-merch" data-admin-page="merch" class="hidden space-y-10">
-                        <h3 class="text-3xl font-pixel text-white mb-6 text-glow-white">ADMINISTRAR MERCHANDISING</h3>
+                        
+                        <!-- ========== SECCIÓN 1: MERCH DE LA WEB ========== -->
+                        <div class="bg-gray-900 p-6 sm:p-8 border border-white space-y-6">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-3xl font-pixel text-white text-glow-white">MERCH DE LA WEB</h3>
+                                <button id="add-web-merch-btn" type="button" class="bg-pink-600 hover:bg-pink-500 text-white font-pixel text-lg py-2 px-6 rounded-none transition-colors duration-300">
+                                    + AÑADIR MERCH WEB
+                                </button>
+                            </div>
 
-                        <!-- Selector de Drag -->
-                        <div class="mb-6">
-                            <label for="admin-merch-select-drag" class="block text-sm font-pixel text-lg text-gray-300 mb-1">SELECCIONA DRAG</label>
-                            <select id="admin-merch-select-drag" name="admin-merch-select-drag" class="w-full">
-                                <option value="">-- CARGANDO DRAGS --</option>
-                            </select>
+                            <!-- Formulario Añadir/Editar Web Merch (oculto por defecto) -->
+                            <form id="web-merch-form" class="bg-gray-800 p-6 border border-gray-600 hidden">
+                                <h4 class="text-2xl font-pixel text-white mb-4 text-glow-white">AÑADIR/EDITAR MERCH WEB</h4>
+                                <input type="hidden" id="edit-web-merch-id" name="edit-web-merch-id">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                                    <div class="md:col-span-2"><label for="web-merch-name" class="block text-sm font-pixel text-lg text-gray-300 mb-1">NOMBRE*</label><input type="text" id="web-merch-name" name="web-merch-name" required class="w-full" placeholder="P.EJ. CAMISETA LOGO"></div>
+                                    <div><label for="web-merch-price" class="block text-sm font-pixel text-lg text-gray-300 mb-1">PRECIO (€)*</label><input type="number" id="web-merch-price" name="web-merch-price" required min="0" step="0.01" placeholder="p.ej. 25.00" class="w-full"></div>
+                                    <div class="md:col-span-2 space-y-2">
+                                        <label for="web-merch-image-url" class="block text-sm font-pixel text-lg text-gray-300 mb-1">IMAGEN (URL o Subir)</label>
+                                        <input type="text" id="web-merch-image-url" name="web-merch-image-url" class="w-full mb-2" placeholder="Pega URL o sube archivo (uploads/...)">
+                                        <input type="file" id="web-merch-image-upload" accept="image/*" class="w-full text-sm">
+                                        <p class="text-xs text-gray-400 mt-1">Sube una imagen (max 5MB).</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 mt-6">
+                                    <button id="save-web-merch-btn" type="submit" class="flex-1 bg-white text-black font-pixel text-xl py-2 px-4 rounded-none border border-gray-400 hover:bg-gray-300 transition-colors duration-300">GUARDAR</button>
+                                    <button id="cancel-web-merch-btn" type="button" class="flex-1 bg-gray-700 text-white font-pixel text-lg py-2 px-4 rounded-none hover:bg-gray-600 transition-colors duration-300">CANCELAR</button>
+                                </div>
+                            </form>
+
+                            <!-- Lista de Web Merch -->
+                            <div>
+                                <h4 class="text-2xl font-pixel text-white mb-4 text-glow-white">LISTA DE MERCH WEB</h4>
+                                <ul id="web-merch-list-container" class="space-y-4">
+                                    <li class="text-gray-400 text-center font-pixel">Cargando merch web...</li>
+                                </ul>
+                            </div>
+
+                            <!-- Resumen de Ventas de Web Merch -->
+                            <div id="web-merch-sales-summary" class="bg-gray-800 p-6 border border-gray-600 space-y-4">
+                                <h4 class="text-2xl font-pixel text-white text-glow-white">RESUMEN DE VENTAS (WEB)</h4>
+                                <div class="flex flex-col sm:flex-row justify-between gap-4">
+                                    <div class="text-center">
+                                        <p class="text-lg font-pixel text-gray-400">Total Ventas (Items Entregados)</p>
+                                        <p id="web-merch-total-items" class="text-4xl font-pixel text-white">0</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-lg font-pixel text-gray-400">Total Ingresos (€ Entregados)</p>
+                                        <p id="web-merch-total-revenue" class="text-4xl font-pixel text-green-400">0.00 €</p>
+                                    </div>
+                                </div>
+                                <button id="web-merch-view-sales-btn" class="w-full mt-2 bg-green-700 hover:bg-green-600 text-white font-pixel text-lg py-2 px-4 rounded-none transition-colors duration-300">
+                                    VER LISTA DE VENTAS WEB
+                                </button>
+                            </div>
                         </div>
 
-                        <!-- Resumen de Ventas -->
-                        <div id="admin-merch-sales-summary" class="hidden bg-gray-900 p-6 border border-white space-y-4">
-                            <h4 class="text-2xl font-pixel text-white text-glow-white">RESUMEN DE VENTAS</h4>
-                            <div class="flex flex-col sm:flex-row justify-between gap-4">
-                                <div class="text-center">
-                                    <p class="text-lg font-pixel text-gray-400">Total Ventas (Items Entregados)</p>
-                                    <p id="admin-merch-total-items" class="text-4xl font-pixel text-white">0</p>
-                                </div>
-                                <div class="text-center">
-                                    <p class="text-lg font-pixel text-gray-400">Total Ingresos (€ Entregados)</p>
-                                    <p id="admin-merch-total-revenue" class="text-4xl font-pixel text-green-400">0.00 €</p>
-                                </div>
+                        <!-- ========== SECCIÓN 2: MERCH DE DRAGS ========== -->
+                        <div class="bg-gray-900 p-6 sm:p-8 border border-white space-y-6">
+                            <h3 class="text-3xl font-pixel text-white mb-6 text-glow-white">MERCH DE DRAGS</h3>
+                            
+                            <!-- Select Drag -->
+                            <div class="mb-6">
+                                <label for="drag-merch-select-drag" class="block text-sm font-pixel text-lg text-gray-300 mb-1">SELECCIONA DRAG</label>
+                                <select id="drag-merch-select-drag" name="drag-merch-select-drag" class="w-full">
+                                    <option value="">-- SELECCIONA UNA DRAG --</option>
+                                </select>
                             </div>
-                            <button id="admin-merch-view-sales-btn" class="w-full mt-2 bg-green-700 hover:bg-green-600 text-white font-pixel text-lg py-2 px-4 rounded-none transition-colors duration-300">
-                                VER LISTA DE VENTAS
-                            </button>
-                        </div>
 
-                        <!-- Formulario Añadir/Editar Item Merch -->
-                        <form id="add-merch-item-form" class="bg-gray-900 p-6 sm:p-8 border border-white hidden">
-                            <h4 class="text-2xl font-pixel text-white mb-4 text-glow-white">AÑADIR/EDITAR ARTÍCULO</h4>
-                            <input type="hidden" id="edit-merch-item-id" name="edit-merch-item-id">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                                <div class="md:col-span-2"><label for="merch-item-name" class="block text-sm font-pixel text-lg text-gray-300 mb-1">NOMBRE*</label><input type="text" id="merch-item-name" name="merch-item-name" required class="w-full" placeholder="P.EJ. CAMISETA LOGO"></div>
-                                <div><label for="merch-item-price" class="block text-sm font-pixel text-lg text-gray-300 mb-1">PRECIO (€)*</label><input type="number" id="merch-item-price" name="merch-item-price" required min="0" step="0.01" placeholder="p.ej. 25.00" class="w-full"></div>
-                                <div class="md:col-span-2 space-y-2">
-                                    <label for="merch-item-image-url" class="block text-sm font-pixel text-lg text-gray-300 mb-1">IMAGEN (URL o Subir)</label>
-                                    <input type="text" id="merch-item-image-url" name="merch-item-image-url" class="w-full mb-2" placeholder="Pega URL o sube archivo (uploads/...)">
-                                    <input type="file" id="merch-item-image-upload" accept="image/*" class="w-full text-sm">
-                                    <p class="text-xs text-gray-400 mt-1">Sube una imagen (max 5MB).</p>
+                            <!-- Formulario Añadir/Editar Drag Merch (oculto hasta seleccionar) -->
+                            <form id="drag-merch-form" class="bg-gray-800 p-6 border border-gray-600 hidden">
+                                <h4 class="text-2xl font-pixel text-white mb-4 text-glow-white">AÑADIR/EDITAR ARTÍCULO DRAG</h4>
+                                <input type="hidden" id="edit-drag-merch-id" name="edit-drag-merch-id">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                                    <div class="md:col-span-2"><label for="drag-merch-name" class="block text-sm font-pixel text-lg text-gray-300 mb-1">NOMBRE*</label><input type="text" id="drag-merch-name" name="drag-merch-name" required class="w-full" placeholder="P.EJ. CAMISETA LOGO"></div>
+                                    <div><label for="drag-merch-price" class="block text-sm font-pixel text-lg text-gray-300 mb-1">PRECIO (€)*</label><input type="number" id="drag-merch-price" name="drag-merch-price" required min="0" step="0.01" placeholder="p.ej. 25.00" class="w-full"></div>
+                                    <div class="md:col-span-2 space-y-2">
+                                        <label for="drag-merch-image-url" class="block text-sm font-pixel text-lg text-gray-300 mb-1">IMAGEN (URL o Subir)</label>
+                                        <input type="text" id="drag-merch-image-url" name="drag-merch-image-url" class="w-full mb-2" placeholder="Pega URL o sube archivo (uploads/...)">
+                                        <input type="file" id="drag-merch-image-upload" accept="image/*" class="w-full text-sm">
+                                        <p class="text-xs text-gray-400 mt-1">Sube una imagen (max 5MB).</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <button id="add-merch-item-form-button" type="submit" class="w-full mt-6 bg-white text-black font-pixel text-xl py-2 px-4 rounded-none border border-gray-400 hover:bg-gray-300 transition-colors duration-300"> AÑADIR ARTÍCULO </button>
-                            <button id="clear-merch-item-form-button" type="button" class="w-full mt-2 bg-gray-700 text-white font-pixel text-lg py-2 px-4 rounded-none hover:bg-gray-600 transition-colors duration-300"> LIMPIAR FORMULARIO </button>
-                        </form>
+                                <div class="flex gap-4 mt-6">
+                                    <button id="save-drag-merch-btn" type="submit" class="flex-1 bg-white text-black font-pixel text-xl py-2 px-4 rounded-none border border-gray-400 hover:bg-gray-300 transition-colors duration-300">GUARDAR</button>
+                                    <button id="cancel-drag-merch-btn" type="button" class="flex-1 bg-gray-700 text-white font-pixel text-lg py-2 px-4 rounded-none hover:bg-gray-600 transition-colors duration-300">CANCELAR</button>
+                                </div>
+                            </form>
 
-                        <!-- Lista de Items de Merch -->
-                        <div>
-                            <h4 class="text-2xl font-pixel text-white mb-4 text-glow-white">ARTÍCULOS DE MERCH</h4>
-                            <ul id="admin-merch-list-container" class="space-y-4">
-                                <li class="text-gray-400 text-center font-pixel">Selecciona una drag para ver/añadir merch.</li>
-                            </ul>
+                            <!-- Lista de Drag Merch -->
+                            <div>
+                                <h4 class="text-2xl font-pixel text-white mb-4 text-glow-white">ARTÍCULOS DE LA DRAG</h4>
+                                <ul id="drag-merch-list-container" class="space-y-4">
+                                    <li class="text-gray-400 text-center font-pixel">Selecciona una drag para ver/añadir merch.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Resumen de Ventas de Drag Merch -->
+                            <div id="drag-merch-sales-summary" class="bg-gray-800 p-6 border border-gray-600 space-y-4 hidden">
+                                <h4 class="text-2xl font-pixel text-white text-glow-white">RESUMEN DE VENTAS (DRAG)</h4>
+                                <div class="flex flex-col sm:flex-row justify-between gap-4">
+                                    <div class="text-center">
+                                        <p class="text-lg font-pixel text-gray-400">Total Ventas (Items Entregados)</p>
+                                        <p id="drag-merch-total-items" class="text-4xl font-pixel text-white">0</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-lg font-pixel text-gray-400">Total Ingresos (€ Entregados)</p>
+                                        <p id="drag-merch-total-revenue" class="text-4xl font-pixel text-green-400">0.00 €</p>
+                                    </div>
+                                </div>
+                                <button id="drag-merch-view-sales-btn" class="w-full mt-2 bg-green-700 hover:bg-green-600 text-white font-pixel text-lg py-2 px-4 rounded-none transition-colors duration-300">
+                                    VER LISTA DE VENTAS DRAG
+                                </button>
+                            </div>
                         </div>
                     </div>
 
