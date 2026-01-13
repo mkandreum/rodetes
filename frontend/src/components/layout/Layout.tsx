@@ -18,7 +18,7 @@ const Layout = () => {
         `text-2xl font-pixel py-4 hover:text-rodetes-pink transition-colors ${location.pathname === path ? 'text-rodetes-pink' : 'text-white'}`;
 
     return (
-        <div className="min-h-screen bg-black text-white font-sans selection:bg-rodetes-pink selection:text-white flex flex-col">
+        <div className="min-h-screen bg-black text-white font-pixel selection:bg-rodetes-pink selection:text-white flex flex-col">
             <Banner />
             {/* Header */}
             <header className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800 h-[83px]" style={{ top: 'auto' }}>
