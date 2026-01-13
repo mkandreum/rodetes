@@ -1565,14 +1565,19 @@ window.addEventListener('DOMContentLoaded', async () => {
 	 * Renderiza la página principal de Merchandising (Web + Drags).
 	 */
 	function renderMerchPage() {
+		console.log("=== renderMerchPage called ===");
 		const webMerchListContainer = document.getElementById('web-merch-list-container');
 		const dragsMerchListContainer = document.getElementById('drags-merch-list-container');
 
-		if (!webMerchListContainer || !dragsMerchListContainer) return;
+		if (!webMerchListContainer || !dragsMerchListContainer) {
+			console.error("Merch containers not found!");
+			return;
+		}
 
 		// 1. Renderizar Web Merch
 		webMerchListContainer.innerHTML = '';
 		const webItems = appState.webMerch || [];
+		console.log("Web Merch items:", webItems.length);
 
 		if (webItems.length === 0) {
 			webMerchListContainer.innerHTML = '<p class="text-gray-400 text-center col-span-full font-pixel">Próximamente merch oficial...</p>';
@@ -1585,7 +1590,10 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 		// 2. Renderizar Drags Merch (Lista de drags que tienen merch)
 		dragsMerchListContainer.innerHTML = '';
+		console.log("Total drags in appState:", (appState.drags || []).length);
 		const dragsWithMerch = (appState.drags || []).filter(d => d.merchItems && d.merchItems.length > 0);
+		console.log("Drags with merchItems:", dragsWithMerch.length);
+		dragsWithMerch.forEach(d => console.log(`  - ${d.name}: ${d.merchItems.length} items`));
 
 		if (dragsWithMerch.length === 0) {
 			dragsMerchListContainer.innerHTML = '<p class="text-gray-400 text-center col-span-full font-pixel">Ninguna drag tiene merch disponible aún.</p>';
@@ -1615,6 +1623,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 		}
 
 		observeRevealElements();
+		console.log("=== renderMerchPage complete ===");
 	}
 
 	/**
