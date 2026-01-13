@@ -190,8 +190,11 @@ const AdminEvents = () => {
                         currentUrl={editingEvent?.poster_url}
                         onUpload={async (file) => {
                             const data = new FormData();
+                            data.append('uploadType', 'events');
                             data.append('poster', file);
-                            const res = await api.post('/events/upload-poster', data);
+                            const res = await api.post('/events/upload-poster', data, {
+                                headers: { 'x-upload-type': 'events' }
+                            });
                             handleChange('poster_url', res.data.url);
                         }}
                     />

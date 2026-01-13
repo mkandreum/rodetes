@@ -160,8 +160,11 @@ const AdminDrags = () => {
                             currentUrl={editingDrag?.cover_image_url}
                             onUpload={async (file) => {
                                 const data = new FormData();
+                                data.append('uploadType', 'drags');
                                 data.append('image', file);
-                                const res = await api.post('/drags/upload-image', data);
+                                const res = await api.post('/drags/upload-image', data, {
+                                    headers: { 'x-upload-type': 'drags' }
+                                });
                                 handleChange('cover_image_url', res.data.url);
                             }}
                         />

@@ -86,9 +86,11 @@ const AdminSettings = () => {
                             currentUrl={formData.appLogoUrl}
                             onUpload={async (file) => {
                                 const data = new FormData();
+                                data.append('uploadType', 'logos');
                                 data.append('logo', file);
-                                data.append('logoType', 'app');
-                                const res = await api.post('/settings/upload-logo', data);
+                                const res = await api.post('/settings/upload-logo', data, {
+                                    headers: { 'x-upload-type': 'logos' }
+                                });
                                 setFormData(prev => ({ ...prev, appLogoUrl: res.data.url }));
                             }}
                         />
@@ -97,9 +99,11 @@ const AdminSettings = () => {
                             currentUrl={formData.ticketLogoUrl}
                             onUpload={async (file) => {
                                 const data = new FormData();
+                                data.append('uploadType', 'logos');
                                 data.append('logo', file);
-                                data.append('logoType', 'ticket');
-                                const res = await api.post('/settings/upload-logo', data);
+                                const res = await api.post('/settings/upload-logo', data, {
+                                    headers: { 'x-upload-type': 'logos' }
+                                });
                                 setFormData(prev => ({ ...prev, ticketLogoUrl: res.data.url }));
                             }}
                         />

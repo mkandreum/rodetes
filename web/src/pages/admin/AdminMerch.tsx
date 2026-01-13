@@ -226,8 +226,11 @@ const AdminMerch = () => {
                             currentUrl={editingItem?.image_url}
                             onUpload={async (file) => {
                                 const data = new FormData();
+                                data.append('uploadType', 'merch');
                                 data.append('image', file);
-                                const res = await api.post('/merch/upload-image', data);
+                                const res = await api.post('/merch/upload-image', data, {
+                                    headers: { 'x-upload-type': 'merch' }
+                                });
                                 handleChange('image_url', res.data.url);
                             }}
                         />

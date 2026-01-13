@@ -1,17 +1,16 @@
 {
-  "name": "rodetes-backend",
+  "name": "rodetes",
   "version": "1.0.0",
-  "description": "Backend for Rodetes Party App",
-  "main": "dist/server.js",
+  "private": true,
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
-    "migrate:data": "ts-node src/scripts/migrateInfo.ts"
+    "dev:backend": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:frontend": "cd web && npm run dev",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "tsc",
+    "build:frontend": "cd web && npm run build",
+    "postinstall": "cd web && npm install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",

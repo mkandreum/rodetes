@@ -12,10 +12,12 @@ const ensureDir = (dir: string) => {
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         console.log('--- Upload Request ---');
+        console.log('Headers:', req.headers);
         console.log('Body:', req.body);
         console.log('File field:', file.fieldname);
 
-        const uploadType = req.body.uploadType || 'general';
+        // Take uploadType from header, query or body
+        const uploadType = (req.headers['x-upload-type'] as string) || req.body.uploadType || 'general';
         const uploadPath = path.resolve(__dirname, '../../uploads', uploadType);
 
         console.log('Upload target path:', uploadPath);
