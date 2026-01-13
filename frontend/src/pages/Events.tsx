@@ -1,10 +1,29 @@
+import { useState } from 'react';
 import { usePublicEvents } from '../hooks/useEvents';
 import Card from '../components/common/Card';
 import Loader from '../components/common/Loader';
 import Button from '../components/common/Button';
+import TicketPurchaseModal from '../components/modals/TicketPurchaseModal';
+import TicketSuccessModal from '../components/modals/TicketSuccessModal';
+import { Event, Ticket } from '../types';
 
 const Events = () => {
     const { data: events, isLoading, error } = usePublicEvents();
+
+    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const [isPurchaseOpen, setIsPurchaseOpen] = useState(false);
+    const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+    const [purchasedTickets, setPurchasedTickets] = useState<Ticket[]>([]);
+
+    const handleBuyClick = (event: Event) => {
+        setSelectedEvent(event);
+        setIsPurchaseOpen(true);
+    };
+
+    const handlePurchaseSuccess = (tickets: Ticket[]) => {
+        setPurchasedTickets(tickets);
+        setIsSuccessOpen(true);
+    };
 
     if (isLoading) return <Loader />;
     if (error) return <div className="text-center text-red-500 py-10">Error al cargar eventos.</div>;
@@ -36,7 +55,10 @@ const Events = () => {
 
                         <div className="mt-6 pt-4 border-t border-gray-800">
                             {event.ticket_availability > 0 ? (
-                                <Button className="w-full bg-rodetes-pink border-rodetes-pink text-white hover:bg-pink-600">
+                                <Button
+                                    className="w-full bg-rodetes-pink border-rodetes-pink text-white hover:bg-pink-600"
+                                    onClick={() => handleBuyClick(event)}
+                                >
                                     COMPRAR ENTRADAS
                                 </Button>
                             ) : (
@@ -54,6 +76,21 @@ const Events = () => {
                     No hay eventos programados próximamente.
                 </div>
             )}
+
+            {/* Modals */}
+            <TicketPurchaseModal
+                isOpen={isPurchaseOpen}
+                onClose={() => setIsPurchaseOpen(false)}
+                event={selectedEvent}
+                onSuccess={handlePurchaseSuccess}
+            />
+
+            <TicketSuccessModal
+                isOpen={isSuccessOpen}
+                onClose={() => setIsSuccessOpen(false)}
+                tickets={purchasedTickets}
+                event={selectedEvent}
+            />
         </div>
     );
 };

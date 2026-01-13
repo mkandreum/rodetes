@@ -6,9 +6,10 @@ interface ModalProps {
     onClose: () => void;
     title?: string;
     children: React.ReactNode;
+    className?: string;
 }
 
-const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
+const Modal = ({ isOpen, onClose, title, children, className }: ModalProps) => {
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
@@ -31,7 +32,7 @@ const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
             ></div>
 
             {/* Content */}
-            <div className="relative bg-gray-900 border border-gray-600 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className={`relative bg-gray-900 border border-gray-600 w-full max-w-2xl max-h-[90vh] overflow-y-auto ${className || ''}`}>
                 <div className="flex justify-between items-center p-6 border-b border-gray-700 bg-gray-800/50">
                     <h3 className="text-2xl font-pixel text-white text-glow-white">
                         {title}

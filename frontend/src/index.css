@@ -11,8 +11,15 @@
 
 /* Animations */
 @keyframes neon-pulse {
-  0%, 100% { box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #eb2eff, 0 0 35px #eb2eff, 0 0 40px #eb2eff; }
-  50% { box-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #eb2eff, 0 0 15px #eb2eff, 0 0 20px #eb2eff; }
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #eb2eff, 0 0 35px #eb2eff, 0 0 40px #eb2eff;
+  }
+
+  50% {
+    box-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #eb2eff, 0 0 15px #eb2eff, 0 0 20px #eb2eff;
+  }
 }
 
 .text-glow-white {
@@ -25,10 +32,27 @@
 }
 
 @keyframes glitch {
-  0% { transform: translate(0) }
-  20% { transform: translate(-2px, 2px) }
-  40% { transform: translate(-2px, -2px) }
-  60% { transform: translate(2px, 2px) }
-  80% { transform: translate(2px, -2px) }
-  100% { transform: translate(0) }
+  0% {
+    transform: translate(0)
+  }
+
+  20% {
+    transform: translate(-2px, 2px)
+  }
+
+  40% {
+    transform: translate(-2px, -2px)
+  }
+
+  60% {
+    transform: translate(2px, 2px)
+  }
+
+  80% {
+    transform: translate(2px, -2px)
+  }
+
+  100% {
+    transform: translate(0)
+  }
 }

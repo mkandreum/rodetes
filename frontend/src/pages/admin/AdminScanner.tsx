@@ -40,13 +40,23 @@ const AdminScanner = () => {
         setScanResult(null);
 
         try {
-            const { data } = await api.post('/tickets/scan', { ticket_id: code });
-            setScanResult(data);
+            if (code.startsWith('TICKET_ID:')) {
+                const ticketId = code.replace('TICKET_ID:', '');
+                const { data } = await api.post('/tickets/scan', { ticket_id: ticketId });
+                setScanResult({ ...data, type: 'ticket' });
+            } else if (code.startsWith('MERCH_SALE_ID:')) {
+                const saleId = code.replace('MERCH_SALE_ID:', '');
+                const { data } = await api.post('/sales/deliver', { sale_id: saleId });
+                setScanResult({ ...data, type: 'merch' });
+            } else {
+                // Fallback for legacy or raw codes (assume ticket for now)
+                const { data } = await api.post('/tickets/scan', { ticket_id: code });
+                setScanResult({ ...data, type: 'ticket' });
+            }
         } catch (error: any) {
             setScanError(error.response?.data?.message || 'Error al validar entrada');
             if (error.response?.data?.ticket) {
-                // If backend returns ticket info even on error (e.g. "Already scanned")
-                setScanResult({ ...error.response.data, success: false });
+                setScanResult({ ...error.response.data, success: false, type: 'ticket' });
             }
         }
     };
@@ -95,19 +105,29 @@ const AdminScanner = () => {
                     )}
 
                     <h3 className="text-2xl font-bold text-white mb-2">
-                        {scanResult?.success ? 'ENTRADA VÁLIDA' : 'ENTRADA INVÁLIDA'}
+                        {scanResult?.success ? (scanResult.type === 'merch' ? 'ENTREGA CONFIRMADA' : 'ENTRADA VÁLIDA') : 'INVÁLIDO'}
                     </h3>
 
                     <p className="text-xl mb-6">
                         {scanResult?.message || scanError}
                     </p>
 
-                    {scanResult?.ticket && (
+                    {scanResult?.type === 'ticket' && scanResult?.ticket && (
                         <div className="bg-black/50 p-4 rounded text-left mb-6 max-w-sm mx-auto space-y-2">
                             <p><span className="text-gray-400">Evento:</span> <span className="text-white font-bold">{scanResult.ticket.event_title}</span></p>
                             <p><span className="text-gray-400">Titular:</span> <span className="text-white">{scanResult.ticket.name} {scanResult.ticket.surname}</span></p>
                             <p><span className="text-gray-400">Email:</span> <span className="text-gray-300">{scanResult.ticket.email}</span></p>
                             <p><span className="text-gray-400">ID:</span> <span className="font-mono text-xs">{scanResult.ticket.ticket_id}</span></p>
+                        </div>
+                    )}
+
+                    {scanResult?.type === 'merch' && scanResult?.sale && (
+                        <div className="bg-black/50 p-4 rounded text-left mb-6 max-w-sm mx-auto space-y-2">
+                            <p><span className="text-gray-400">Producto:</span> <span className="text-white font-bold">{scanResult.sale.item_name}</span></p>
+                            <p><span className="text-gray-400">Comprador:</span> <span className="text-white">{scanResult.sale.buyer_name} {scanResult.sale.buyer_surname}</span></p>
+                            <div className="text-center pt-2">
+                                <span className="bg-green-600 text-white px-3 py-1 rounded text-sm font-bold">ENTREGADO</span>
+                            </div>
                         </div>
                     )}
 

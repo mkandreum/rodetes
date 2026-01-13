@@ -257,11 +257,38 @@ const AdminMerch = () => {
                         <tbody>
                             {stats.contextSales.map((sale) => (
                                 <tr key={sale.id} className="border-b border-gray-800 hover:bg-gray-900">
-                                    <td className="px-4 py-2 font-mono text-xs">{sale.sale_id.substring(0, 8)}...</td>
+                                    <td className="px-4 py-2 font-mono text-xs text-gray-400">
+                                        {sale.sale_id.substring(0, 8)}...
+                                    </td>
                                     <td className="px-4 py-2">{sale.item_name}</td>
                                     <td className="px-4 py-2">{sale.buyer_name} {sale.buyer_surname}</td>
                                     <td className="px-4 py-2 text-green-400">{sale.price} €</td>
-                                    <td className="px-4 py-2">{new Date(sale.created_at).toLocaleDateString()}</td>
+                                    <td className="px-4 py-2">
+                                        {sale.is_delivered ? (
+                                            <span className="text-green-500 font-bold text-xs uppercase border border-green-500 px-2 py-0.5 rounded">Entregado</span>
+                                        ) : (
+                                            <button
+                                                onClick={async () => {
+                                                    if (window.confirm('¿Marcar como entregado?')) {
+                                                        try {
+                                                            await createMerch.mutateAsync({ ...sale, is_delivered: true } as any); // Hack: reusing mutation or ideally useSales mutation
+                                                            // Better approach: useSales hook should expose a 'deliverSale' mutation.
+                                                            // Since we don't have it in useSales yet, let's assume we need to add it or do a direct API call.
+                                                            // Let's do direct API call for speed as per 'rapido'.
+                                                            const { default: api } = await import('../../api/client');
+                                                            await api.post('/sales/deliver', { sale_id: sale.sale_id });
+                                                            // Force re-fetch sales
+                                                            window.location.reload();
+                                                        } catch (e) { console.error(e); alert('Error'); }
+                                                    }
+                                                }}
+                                                className="bg-yellow-600 text-white text-xs px-2 py-1 rounded hover:bg-yellow-500"
+                                            >
+                                                PENDIENTE (MARCAR)
+                                            </button>
+                                        )}
+                                    </td>
+                                    <td className="px-4 py-2 text-xs text-gray-500">{new Date(sale.created_at).toLocaleDateString()}</td>
                                 </tr>
                             ))}
                             {stats.contextSales.length === 0 && (

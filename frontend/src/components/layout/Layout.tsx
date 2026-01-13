@@ -3,6 +3,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { useSettings } from '../../hooks/useSettings';
 import { Menu, X } from 'lucide-react';
+import { Banner } from './Banner';
 
 const Layout = () => {
     const { isAuthenticated, logout } = useAuthStore();
@@ -17,9 +18,10 @@ const Layout = () => {
         `text-2xl font-pixel py-4 hover:text-rodetes-pink transition-colors ${location.pathname === path ? 'text-rodetes-pink' : 'text-white'}`;
 
     return (
-        <div className="min-h-screen flex flex-col bg-black text-white font-pixel">
+        <div className="min-h-screen bg-black text-white font-sans selection:bg-rodetes-pink selection:text-white flex flex-col">
+            <Banner />
             {/* Header */}
-            <header className="border-b border-gray-800 bg-black/90 sticky top-0 z-50 backdrop-blur-sm">
+            <header className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800 h-[83px]" style={{ top: 'auto' }}>
                 <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                     <Link to="/" className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rodetes-pink to-rodetes-blue hover:opacity-80 transition-opacity">
                         {settings?.appLogoUrl ? (
