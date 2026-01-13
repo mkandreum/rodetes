@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAdminEvents, useEventMutations } from '../../hooks/useEvents';
+import { useToast } from '../../context/ToastContext';
 import Loader from '../../components/common/Loader';
 import Button from '../../components/common/Button';
 import Modal from '../../components/common/Modal';
@@ -11,6 +12,7 @@ import api from '../../api/client';
 const AdminEvents = () => {
     const { data: events, isLoading } = useAdminEvents();
     const { createEvent, updateEvent, deleteEvent } = useEventMutations();
+    const { success, error } = useToast();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingEvent, setEditingEvent] = useState<Partial<Event> | null>(null);
@@ -45,9 +47,10 @@ const AdminEvents = () => {
             }
             setIsModalOpen(false);
             setEditingEvent(null);
-        } catch (error) {
-            console.error('Error saving event:', error);
-            alert('Error al guardar el evento');
+            success('Evento guardado correctamente');
+        } catch (err) {
+            console.error('Error saving event:', err);
+            error('Error al guardar el evento');
         }
     };
 
