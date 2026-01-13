@@ -3,8 +3,10 @@ import { useAdminEvents, useEventMutations } from '../../hooks/useEvents';
 import Loader from '../../components/common/Loader';
 import Button from '../../components/common/Button';
 import Modal from '../../components/common/Modal';
+import FileUpload from '../../components/common/FileUpload';
 import { Edit, Trash2, Plus } from 'lucide-react';
 import { Event } from '../../types';
+import api from '../../api/client';
 
 const AdminEvents = () => {
     const { data: events, isLoading } = useAdminEvents();
@@ -172,15 +174,16 @@ const AdminEvents = () => {
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-gray-400 mb-1">URL del Poster</label>
-                        <input
-                            type="text"
-                            value={editingEvent?.poster_url || ''}
-                            onChange={e => handleChange('poster_url', e.target.value)}
-                            className="w-full bg-black border border-gray-700 text-white p-2"
-                        />
-                    </div>
+                    <FileUpload
+                        label="Póster del Evento"
+                        currentUrl={editingEvent?.poster_url}
+                        onUpload={async (file) => {
+                            const data = new FormData();
+                            data.append('poster', file);
+                            const res = await api.post('/events/upload-poster', data);
+                            handleChange('poster_url', res.data.url);
+                        }}
+                    />
 
                     <Button type="submit" className="w-full bg-rodetes-pink border-none text-white hover:bg-pink-600 mt-6">
                         GUARDAR

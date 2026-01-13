@@ -3,8 +3,10 @@ import { useDrags, useDragMutations } from '../../hooks/useDrags';
 import Loader from '../../components/common/Loader';
 import Button from '../../components/common/Button';
 import Modal from '../../components/common/Modal';
+import FileUpload from '../../components/common/FileUpload';
 import { Edit, Trash2, Plus } from 'lucide-react';
 import { Drag } from '../../types';
+import api from '../../api/client';
 
 const AdminDrags = () => {
     const { data: drags, isLoading } = useDrags();
