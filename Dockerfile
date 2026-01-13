@@ -20,6 +20,8 @@ RUN npm ci
 COPY backend/src ./src
 # Build
 RUN npm run build
+# Copy schema.sql to dist (TypeScript doesn't copy .sql files)
+RUN mkdir -p dist/db && cp src/db/schema.sql dist/db/
 
 # Stage 3: Final Image
 FROM node:20-alpine
