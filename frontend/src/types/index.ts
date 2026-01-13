@@ -61,4 +61,5 @@ export interface Sale {
     buyer_surname: string;
     is_delivered: boolean;
     delivered_at?: string;
+    created_at: string;
 }

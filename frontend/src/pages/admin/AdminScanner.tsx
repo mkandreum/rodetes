@@ -21,12 +21,12 @@ const AdminScanner = () => {
 
         scanner.render(onScanSuccess, onScanFailure);
 
-        function onScanSuccess(decodedText: string, decodedResult: any) {
+        function onScanSuccess(decodedText: string) {
             handleValidate(decodedText);
-            scanner.clear().catch(error => console.error("Failed to clear scanner", error));
+            scanner.clear().catch(err => console.error("Failed to clear scanner", err));
         }
 
-        function onScanFailure(error: any) {
+        function onScanFailure() {
             // console.warn(`Code scan error = ${error}`);
         }
 

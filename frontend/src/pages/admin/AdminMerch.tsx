@@ -5,7 +5,7 @@ import { useSales } from '../../hooks/useSales';
 import Loader from '../../components/common/Loader';
 import Button from '../../components/common/Button';
 import Modal from '../../components/common/Modal';
-import { Edit, Trash2, Plus, DollarSign, List } from 'lucide-react';
+import { Edit, Trash2, Plus, List } from 'lucide-react';
 import { MerchItem } from '../../types';
 
 const AdminMerch = () => {
