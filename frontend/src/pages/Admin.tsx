@@ -1,5 +1,8 @@
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Calendar, Users, ShoppingBag, Camera, QrCode, Settings, Shuffle } from 'lucide-react';
+import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../store/authStore';
+import { useToast } from '../context/ToastContext';
+import { Calendar, Users, ShoppingBag, Camera, QrCode, Settings, Shuffle, LogOut } from 'lucide-react';
+import Button from '../components/common/Button';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminEvents from './admin/AdminEvents';
 import AdminDrags from './admin/AdminDrags';
@@ -11,60 +14,89 @@ import AdminGiveaway from './admin/AdminGiveaway';
 
 const Admin = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+    const { user, logout } = useAuthStore();
+    const { success } = useToast();
+
+    const handleLogout = () => {
+        logout();
+        success('Sesión cerrada correctamente');
+        navigate('/login');
+    };
 
     const menuItems = [
-        { name: 'Dashboard', path: '', icon: null },
-        { name: 'Eventos', path: 'events', icon: <Calendar size={20} /> },
-        { name: 'Drags', path: 'drags', icon: <Users size={20} /> },
-        { name: 'Merch', path: 'merch', icon: <ShoppingBag size={20} /> },
-        { name: 'Sorteo', path: 'giveaway', icon: <Shuffle size={20} /> },
-        { name: 'Galería', path: 'gallery', icon: <Camera size={20} /> },
-        { name: 'Scanner', path: 'scanner', icon: <QrCode size={20} /> },
-        { name: 'Ajustes', path: 'settings', icon: <Settings size={20} /> },
+        { name: 'DASHBOARD', path: '', icon: null },
+        { name: 'EVENTOS', path: 'events', icon: null },
+        { name: 'DRAGS', path: 'drags', icon: null },
+        { name: 'MERCH', path: 'merch', icon: null },
+        { name: 'SORTEO', path: 'giveaway', icon: null },
+        { name: 'GALERÍA', path: 'gallery', icon: null },
+        { name: 'SCANNER', path: 'scanner', icon: null },
+        { name: 'AJUSTES', path: 'settings', icon: null },
     ];
 
     return (
-        <div className="flex flex-col md:flex-row min-h-[calc(100vh-80px)]">
-            {/* Sidebar */}
-            <aside className="w-full md:w-64 bg-gray-900 border-r border-gray-800 p-4">
-                <div className="mb-8 hidden md:block">
-                    <h2 className="text-xl font-bold text-white px-4">Administración</h2>
+        <div className="min-h-screen bg-black text-white font-pixel">
+            {/* Admin Header (Legacy Style) */}
+            <div className="bg-black border-b border-white p-4">
+                <div className="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div className="text-gray-300 text-lg">
+                        CONECTADO COMO: <span className="text-white font-bold">{user?.email || 'ADMIN'}</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <Link to="/admin/scanner">
+                            <Button variant="primary" size="sm" className="font-bold">
+                                <QrCode size={18} className="mr-2" />
+                                ESCANEAR QR
+                            </Button>
+                        </Link>
+                        <Button variant="secondary" size="sm" onClick={handleLogout}>
+                            <LogOut size={18} className="mr-2" />
+                            CERRAR SESIÓN
+                        </Button>
+                    </div>
                 </div>
+            </div>
 
-                <nav className="space-y-2">
-                    {menuItems.map((item) => {
-                        const fullPath = item.path ? `/admin/${item.path}` : '/admin';
-                        const isActive = location.pathname === fullPath;
+            {/* Admin Navigation Tabs (Legacy Style) */}
+            <div className="bg-black border-b border-white mb-8 sticky top-0 z-30">
+                <div className="container mx-auto max-w-6xl overflow-x-auto">
+                    <nav className="flex min-w-max">
+                        {menuItems.map((item) => {
+                            const fullPath = item.path ? `/admin/${item.path}` : '/admin';
+                            const isActive = location.pathname === fullPath;
 
-                        return (
-                            <Link
-                                key={item.name}
-                                to={item.path}
-                                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors ${isActive
-                                    ? 'bg-rodetes-pink/20 text-rodetes-pink border-r-2 border-rodetes-pink'
-                                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
-                                    }`}
-                            >
-                                {item.icon}
-                                {item.name}
-                            </Link>
-                        );
-                    })}
-                </nav>
-            </aside>
+                            return (
+                                <Link
+                                    key={item.name}
+                                    to={item.path}
+                                    className={`px-6 py-4 text-xl font-pixel uppercase transition-colors border-r border-gray-800 last:border-r-0 ${isActive
+                                            ? 'bg-white text-black'
+                                            : 'bg-black text-white hover:bg-gray-800'
+                                        }`}
+                                >
+                                    {item.name}
+                                </Link>
+                            );
+                        })}
+                    </nav>
+                </div>
+            </div>
 
             {/* Content Area */}
-            <div className="flex-1 p-6 md:p-8 bg-black">
-                <Routes>
-                    <Route index element={<AdminDashboard />} />
-                    <Route path="events" element={<AdminEvents />} />
-                    <Route path="drags" element={<AdminDrags />} />
-                    <Route path="merch" element={<AdminMerch />} />
-                    <Route path="giveaway" element={<AdminGiveaway />} />
-                    <Route path="gallery" element={<AdminGallery />} />
-                    <Route path="scanner" element={<AdminScanner />} />
-                    <Route path="settings" element={<AdminSettings />} />
-                </Routes>
+            <div className="container mx-auto max-w-6xl p-4 md:p-0 mb-20">
+                <div className="bg-gray-900 border border-white p-6 shadow-lg shadow-white/5">
+                    <Routes>
+                        <Route index element={<AdminDashboard />} />
+                        <Route path="events" element={<AdminEvents />} />
+                        <Route path="drags" element={<AdminDrags />} />
+                        <Route path="merch" element={<AdminMerch />} />
+                        <Route path="giveaway" element={<AdminGiveaway />} />
+                        <Route path="gallery" element={<AdminGallery />} />
+                        <Route path="scanner" element={<AdminScanner />} />
+                        <Route path="settings" element={<AdminSettings />} />
+                    </Routes>
+                </div>
             </div>
         </div>
     );
